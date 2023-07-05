@@ -19,6 +19,9 @@ body{
     background-color: #41BCCC !important;
     border: #41BCCC;
 }
+#formLogin{
+    width: 75%;
+}
 
 @media (max-width: 767px) {
     .form-login{
@@ -38,5 +41,7 @@ body{
         left: 25%;
         top: 20px;
     }
-
+    #formLogin{
+        width: 100%;
+    }
 }

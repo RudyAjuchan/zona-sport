@@ -1,0 +1,1 @@
+<img src="assets/img/logo_principal.png" alt="" width="200">
