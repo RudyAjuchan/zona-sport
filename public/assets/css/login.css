@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+
+body{
+    background: url('../img/fondo_login_circle.png');
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.logoLogin{
+    position: absolute;
+    left: 20px;
+    top: 20px;
+}
+
+.btn-success{
+    background-color: #41BCCC !important;
+    border: #41BCCC;
+}
+
+@media (max-width: 767px) {
+    .form-login{
+        background-color: rgba(0, 0, 0, .2);
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+    }
+    .btn-success{
+        background-color: #000 !important;
+        border: #000;    
+    }
+    .logoLogin{
+        position: absolute;
+        left: 25%;
+        top: 20px;
+    }
+
+}

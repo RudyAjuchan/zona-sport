@@ -1,0 +1,257 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+*{
+    box-sizing: border-box;
+}
+body{
+    font-family: 'Montserrat', sans-serif;
+    min-height:200vh;
+}
+
+.nav-link:hover{
+    transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;    
+}
+.nav-link{
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
+}
+
+.titulos{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;    
+}
+
+.titulos2{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+.alquiler{
+    height: 110vh;
+    background-image: url("../img/cancha1.jpg");
+    background-position: center center;
+    background-repeat: no-repeat ;
+    background-size: cover;
+}
+
+.alquiler2{
+    height: 50vh;
+}
+
+.cards-content{
+    position: relative;
+    top: -10rem;
+}
+
+.alquiler2 .card{
+    height: 380px;
+}
+
+/* PARA TIME LINE */
+.timeline {
+    border-left: 3px solid #727cf5;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    background: rgba(114, 124, 245, 0.09);
+    margin: 0 auto;
+    letter-spacing: 0.2px;
+    position: relative;
+    line-height: 1.4em;
+    font-size: 1.03em;
+    padding: 50px;
+    list-style: none;
+    text-align: left;
+    max-width: 40%;
+}
+
+@media (max-width: 767px) {
+    .timeline {
+        max-width: 98%;
+        padding: 25px;
+    }
+}
+
+.timeline h1 {
+    font-weight: 300;
+    font-size: 1.4em;
+}
+
+.timeline h2,
+.timeline h3 {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.timeline .event {
+    border-bottom: 1px dashed #e8ebf1;
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+@media (max-width: 767px) {
+    .timeline .event {
+        padding-top: 30px;
+    }
+}
+
+.timeline .event:last-of-type {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border: none;
+}
+
+.timeline .event:before,
+.timeline .event:after {
+    position: absolute;
+    display: block;
+    top: 0;
+}
+
+.timeline .event:before {
+    left: -207px;
+    content: attr(data-date);
+    text-align: right;
+    font-weight: 100;
+    font-size: 0.9em;
+    min-width: 120px;
+}
+
+@media (max-width: 767px) {
+    .timeline .event:before {
+        left: 0px;
+        text-align: left;
+    }
+}
+
+.timeline .event:after {
+    -webkit-box-shadow: 0 0 0 3px #727cf5;
+    box-shadow: 0 0 0 3px #727cf5;
+    left: -55.8px;
+    background: #fff;
+    border-radius: 50%;
+    height: 9px;
+    width: 9px;
+    content: "";
+    top: 5px;
+}
+
+@media (max-width: 767px) {
+    .timeline .event:after {
+        left: -31.8px;
+    }
+}
+
+.rtl .timeline {
+    border-left: 0;
+    text-align: right;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    border-right: 3px solid #727cf5;
+}
+
+.rtl .timeline .event::before {
+    left: 0;
+    right: -170px;
+}
+
+.rtl .timeline .event::after {
+    left: 0;
+    right: -55.8px;
+}
+
+
+/* PARA SOBRE NOSOTROS */
+.icon_about{
+    transform: scale(0.7);
+    -webkit-transform: scale(0.7);
+    -moz-transform: scale(0.7);
+    -ms-transform: scale(0.7);
+    -o-transform: scale(0.7);
+}
+
+.contact-i{
+    background: rgb(27,142,89);
+}
+
+/* PARA CONTACTO */
+.inputBox{
+    position: relative;
+    width: 100%;
+}
+
+.inputBox input, .inputBox textarea{
+    width: 100%;
+    padding: 10px;
+    border: 2px solid rgba(255,255,255, 0.25);
+    background: transparent;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    outline: none;
+    color: white;
+    font-size: 1rem;
+    margin: 10px 0px;
+}
+
+.inputBox span{
+    position: absolute;
+    left: 0;
+    padding: 22px;
+    pointer-events: none;
+    font-size: 1rem;
+    color: rgba(255,255,255, 0.50);
+    transition: .2s;
+    -webkit-transition: .2s;
+    -moz-transition: .2s;
+    -ms-transition: .2s;
+    -o-transition: .2s;
+}
+
+.inputBox input:valid ~ span,
+.inputBox input:focus ~ span,
+.inputBox textarea:valid ~ span,
+.inputBox textarea:focus ~ span{
+    color: white;
+    transform: translateX(10px) translateY(2px);
+    -webkit-transform: translateX(10px) translateY(2px);
+    -moz-transform: translateX(10px) translateY(2px);
+    -ms-transform: translateX(10px) translateY(2px);
+    -o-transform: translateX(10px) translateY(2px);
+    font-size: .75rem;
+    padding: 0 10px;
+    background: rgb(27,142,89);
+}
+
+#mapa{
+    width: 100%;
+    height: 50vh;
+}
+
+.ui-timepicker-container{
+    z-index: 9999 !important;
+}
+
+form input:required {
+    content:"*";
+    border-bottom: 1px solid #aa0000;
+}
