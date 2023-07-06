@@ -208,8 +208,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <span>Los datos con borde rojo son obligatorios</span>
-                    <form>
+                    <span>Los datos con borde rojo son obligatorios (completa los datos para continuar)</span>
+                    <form id="formReserva" name="formReserva">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-signature"></i></span>
                             <input type="text" name="nombre" required class="form-control" placeholder="Nombre completo" aria-label="Nombre completo*" aria-describedby="basic-addon1">
@@ -245,33 +245,183 @@
                             </div>
                         </div>                        
                         <div class="row mt-4 justify-content-center">
-                            <div class="col-12 text-center">
-                                <p class="text-center">Por favor seleccione el horario.</p>
-                                <button class="btn btn-secondary btn-sm mt-2" type="button" id="btn1" onclick="apartar(1);">2:00-2:30pm <br>Libre</button>
-                                <button class="btn btn-secondary btn-sm mt-2" type="button" id="btn2" onclick="apartar(2);">2:30-3:00pm <br>Libre</button>
-                                <button class="btn btn-secondary btn-sm mt-2" type="button" id="btn3" onclick="apartar(3);">3:00-3:30pm <br>Libre</button>
-                                <br>
-                                <button class="btn btn-secondary btn-sm mt-2" type="button" id="btn4" onclick="apartar(4);">3:30-4:00pm <br>Libre</button>
-                                <button class="btn btn-secondary btn-sm mt-2" type="button" id="btn5" onclick="apartar(5);">4:00-4:30pm <br>Libre</button>
-                                <button class="btn btn-secondary btn-sm mt-2" type="button" id="btn6" onclick="apartar(6);">4:30-5:00pm <br>Libre</button>
-                                <br>
-                                <button class="btn btn-secondary btn-sm mt-2" type="button" id="btn7" onclick="apartar(7);">5:00-5:30pm <br>Libre</button>
-                                <button class="btn btn-secondary btn-sm mt-2" type="button" id="btn8" onclick="apartar(8);">5:30-6:00pm <br>Libre</button>
-                                <button class="btn btn-secondary btn-sm mt-2" type="button" id="btn9" onclick="apartar(9);">6:00-6:30pm <br>Libre</button>
-                                <br>
-                                <button class="btn btn-secondary btn-sm mt-2" type="button" id="btn10" onclick="apartar(10);">6:30-7:00pm <br>Libre</button>
-                                <button class="btn btn-secondary btn-sm mt-2" type="button" id="btn11" onclick="apartar(11);">7:00-7:30pm <br>Libre</button>
-                                <button class="btn btn-secondary btn-sm mt-2" type="button" id="btn12" onclick="apartar(12);">7:30-8:00pm <br>Libre</button>
-                                <br>
-                                <button class="btn btn-secondary btn-sm mt-2" type="button" id="btn13" onclick="apartar(13);">8:00-8:30pm <br>Libre</button>
-                                <button class="btn btn-secondary btn-sm mt-2" type="button" id="btn14" onclick="apartar(14);">8:30-9:00pm <br>Libre</button>
+                            <div class="col-12 col-md-8 text-center">
+                                <p class="text-center">Por favor seleccione el horario.(No puedes elegir horarios salteados)</p>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn1" onclick="apartar(1);">2:00-2:30pm<br>Libre</button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn2" onclick="apartar(2);">2:30-3:00pm<br>Libre</button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn3" onclick="apartar(3);">3:00-3:30pm<br>Libre</button>
+
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn4" onclick="apartar(4);">3:30-4:00pm<br>Libre</button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn5" onclick="apartar(5);">4:00-4:30pm<br>Libre</button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn6" onclick="apartar(6);">4:30-5:00pm<br>Libre</button>
+                                
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn7" onclick="apartar(7);">5:00-5:30pm<br>Libre</button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn8" onclick="apartar(8);">5:30-6:00pm<br>Libre</button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn9" onclick="apartar(9);">6:00-6:30pm<br>Libre</button>
+                                
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn10" onclick="apartar(10);">6:30-7:00pm<br>Libre</button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn11" onclick="apartar(11);">7:00-7:30pm<br>Libre</button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn12" onclick="apartar(12);">7:30-8:00pm<br>Libre</button>
+                                
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn13" onclick="apartar(13);">8:00-8:30pm<br>Libre</button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn14" onclick="apartar(14);">8:30-9:00pm<br>Libre</button>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success">Pasar al método de pago</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" onclick="abrirModoPago();">Pasar al método de pago</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="reset();">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Modael modo de pago --}}
+    <div class="modal fade" id="modalPago" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitleId">Modo de pago</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-5">
+                    <form name="formTarjeta" id="formTarjeta">
+                        <label for="tipoPago">Seleccione el tipo de pago</label>
+                        <select name="tipoPago" id="tipoPago" class="form-control" onchange="mostrarPago();">
+                            <option value="" disabled selected hidden>Seleccione Pago</option>
+                            <option value="1">Pago con tarjeta</option>
+                            <option value="2">Pago previo deposito</option>
+                            <option value="3">Pago efectivo</option>
+                        </select>                    
+
+                        <div id="tipoPago1">
+                            <h4 class="mt-4">Por favor complete los datos</h4>
+                            <h5 class="text-end"><b>Total a cancelar Q. <span style="color: red">150.00</span></b></h5>
+                            <div class="row">
+                                <div class="col-xl-5 col-lg-6">
+                                    <div class="card-group my-4">
+                                        <div class="card">
+                                            <div class="logo"><img src="assets/img/Visa-Logo-PNG-Image.png" alt="Visa"></div>
+                                            <div class="chip"><img src="assets/img/chip.png" alt="chip"></div>
+                                            <div class="number" id="cardNumber">XXXX XXXX XXXX XXXX</div>
+                                            <div class="name" id="cardName">XXXXXXX XXXXXXX</div>
+                                            <div class="from">00/00</div>
+                                            <div class="to">000</div>
+                                            <div class="ring"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-7 col-lg-6 align-items-center pt-4">
+                                    <label for="" class="mt-2">Nombre titular de la tarjeta</label>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-id-card"></i></span>
+                                        <input type="text" name="nombreTarjeta" id="nombreTarjeta" onkeyup="cardName();" required class="form-control" placeholder="Nombre Titular de la tarjeta" aria-describedby="basic-addon1">
+                                    </div>
+                                    <label for="" class="mt-2">Número tarjeta</label>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1"><i class="fa-brands fa-cc-visa"></i></span>
+                                        <input type="text" name="numeroTarjeta" 
+                                        onkeyup="
+                                                var v = this.value;
+                                                if (v.match(/^\d{4}$/) !== null) {
+                                                    this.value = v + ' ';
+                                                }else if (v.match(/^\d{4}\ \d{4}$/) !== null) {
+                                                    this.value = v + ' ';
+                                                }else if (v.match(/^\d{4}\ \d{4}\ \d{4}$/) !== null) {
+                                                    this.value = v + ' ';
+                                                }; cardNumber();"
+                                            maxlength="19"
+                                        id="numeroTarjeta" required class="form-control" placeholder="Número de la tarjeta" aria-describedby="basic-addon1">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label for="" class="mt-2">Fecha expiración</label>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-calendar"></i></span>
+                                                <input type="text" name="fechaExpiracion" required class="form-control" placeholder="00/00" aria-describedby="basic-addon1"
+                                                onkeyup="
+                                                var v = this.value;
+                                                if (v.match(/^\d{2}$/) !== null) {
+                                                    this.value = v + '/';
+                                                }"
+                                                maxlength="5"
+                                                >
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="" class="mt-2">CVC</label>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-credit-card"></i></span>
+                                                <input type="number" name="cvc" 
+                                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                required class="form-control" placeholder="000" aria-describedby="basic-addon1" maxlength="3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+
+                        <div id="tipoPago2" class="my-5">
+                            <h4>Pago deposito previo</h4>
+
+                            Para llevar a cabo este procedimiento, siga los siguientes pasos:
+                            <br>
+                            <ol>
+                                <li>Seleccione el banco de su preferencia.</li>
+                                <li>Realice el depósito según el monto indicado.</li>
+                                <li>Una vez realizado el depósito, envíe una captura del comprobante al número +502 54125425 para validar el pago.</li>
+                                <li>Una vez validado el pago, procederemos a reservar y enviarle el comprobante a la dirección de correo proporcionada.</li>
+                            </ol>                            
+                            <br>
+                            <h5 class="text-end"><b>Total a cancelar Q. <span style="color: red">150.00</span></b></h5>
+                            <br><br>
+                            Bancos disponibles
+                            <ul>
+                                <li><b>BANRURAL</b></li>
+                                <ul>
+                                    <li>A nombre de: Nombre X Apellido X</li>
+                                    <li>Cuenta: 0021654116584</li>
+                                </ul>
+
+                                <li><b>BANRURAL</b></li>
+                                <ul>
+                                    <li>A nombre de: Nombre X Apellido X</li>
+                                    <li>Cuenta: 0021654116584</li>
+                                </ul>
+
+                                <li><b>BANRURAL</b></li>
+                                <ul>
+                                    <li>A nombre de: Nombre X Apellido X</li>
+                                    <li>Cuenta: 0021654116584</li>
+                                </ul>
+
+                                <li><b>BANRURAL</b></li>
+                                <ul>
+                                    <li>A nombre de: Nombre X Apellido X</li>
+                                    <li>Cuenta: 0021654116584</li>
+                                </ul>
+                            </ul>
+                        </div>
+
+                        <div id="tipoPago3">
+                            <h4>Pago en Efectivo</h4>
+                            <br>
+                            <h5 class="text-end"><b>Total a cancelar Q. <span style="color: red">150.00</span></b></h5>
+                            <br><br>
+                            <p>
+                                Para este método de pago consta de la siguiente manera; Una vez elegido el tipo de pago efectivo, deberá cancelar en las
+                                instalaciones de la cancha, deberá cancelar previo a utilizar la cancha.
+                            </p>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="regresar();">Atrás</button>
+                    <button type="button" class="btn btn-success" onclick="guardarReserva();">Confirmar y reservar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="reset();">Cancelar</button>
                 </div>
             </div>
         </div>

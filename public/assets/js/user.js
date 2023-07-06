@@ -19,7 +19,11 @@ let horas = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                 timepicker:false,
                 minDate: anio+'/'+mes+'/'+dia,
             });
-        }     
+        }
+        
+        $("#tipoPago1").hide();
+        $("#tipoPago2").hide();
+        $("#tipoPago3").hide();
     });
 
 function apartar(id){    
@@ -163,5 +167,67 @@ function apartar(id){
     }else{
         alert("!No se puede reservar en medio de un horario ocupado!, le recomendamos hacer reservas individuales")
         horas[posicionF]=0;
+    }
+}
+
+function reset(){
+    $('#formReserva').trigger("reset");
+    for(var i=0; i<horas.length; i++){
+        horas[i]=0;
+    }
+    $("#tipoPago1").hide();
+    $("#tipoPago2").hide();
+    $("#tipoPago3").hide();
+    $('#formTarjeta').trigger("reset");
+}
+
+function abrirModoPago(){
+
+    var form = document.getElementById('formReserva');
+
+    if (!form.checkValidity()) {
+        alert("Completa los campos para continuar, revisa si el correo introducido es un correo válido")
+    }else{
+        var myModalEl = document.getElementById('modalId');
+        var modal = bootstrap.Modal.getInstance(myModalEl)
+        modal.hide();
+        
+        var myModal = new bootstrap.Modal(document.getElementById('modalPago'))
+        myModal.show()
+    }    
+}
+
+function cardName(){
+    var texto = document.getElementById('nombreTarjeta').value;
+    document.getElementById('cardName').textContent=texto;
+}
+
+function cardNumber(){
+    var texto = document.getElementById('numeroTarjeta').value;
+    document.getElementById('cardNumber').textContent=texto;
+}
+
+function regresar(){
+    var myModalEl = document.getElementById('modalPago');
+    var modal = bootstrap.Modal.getInstance(myModalEl)
+    modal.hide();
+    
+    var myModal = new bootstrap.Modal(document.getElementById('modalId'))
+    myModal.show()
+}
+
+function mostrarPago(){
+    if($('#tipoPago').val()==1){
+        $('#tipoPago1').fadeIn(500);
+        $('#tipoPago2').hide(500);
+        $('#tipoPago3').hide(500);
+    }else if($('#tipoPago').val()==2){
+        $('#tipoPago1').hide(500);
+        $('#tipoPago2').fadeIn(500);
+        $('#tipoPago3').hide(500);
+    }else if($('#tipoPago').val()==3){
+        $('#tipoPago1').hide(500);
+        $('#tipoPago2').hide(500);
+        $('#tipoPago3').fadeIn(500);
     }
 }

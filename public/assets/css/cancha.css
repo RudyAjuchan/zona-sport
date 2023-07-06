@@ -2,15 +2,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
-*{
+
+* {
     box-sizing: border-box;
 }
-body{
+
+body {
     font-family: 'Montserrat', sans-serif;
-    min-height:200vh;
+    min-height: 200vh;
 }
 
-.nav-link:hover{
+.nav-link:hover {
     transform: scale(1.2);
     -webkit-transform: scale(1.2);
     -moz-transform: scale(1.2);
@@ -20,9 +22,10 @@ body{
     -webkit-transition: all .3s;
     -moz-transition: all .3s;
     -ms-transition: all .3s;
-    -o-transition: all .3s;    
+    -o-transition: all .3s;
 }
-.nav-link{
+
+.nav-link {
     transition: all .3s;
     -webkit-transition: all .3s;
     -moz-transition: all .3s;
@@ -30,34 +33,34 @@ body{
     -o-transition: all .3s;
 }
 
-.titulos{
+.titulos {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 800;    
+    font-weight: 800;
 }
 
-.titulos2{
+.titulos2 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
 }
 
-.alquiler{
+.alquiler {
     height: 110vh;
     background-image: url("../img/cancha1.jpg");
     background-position: center center;
-    background-repeat: no-repeat ;
+    background-repeat: no-repeat;
     background-size: cover;
 }
 
-.alquiler2{
+.alquiler2 {
     height: 50vh;
 }
 
-.cards-content{
+.cards-content {
     position: relative;
     top: -10rem;
 }
 
-.alquiler2 .card{
+.alquiler2 .card {
     height: 380px;
 }
 
@@ -179,7 +182,7 @@ body{
 
 
 /* PARA SOBRE NOSOTROS */
-.icon_about{
+.icon_about {
     transform: scale(0.7);
     -webkit-transform: scale(0.7);
     -moz-transform: scale(0.7);
@@ -187,20 +190,21 @@ body{
     -o-transform: scale(0.7);
 }
 
-.contact-i{
-    background: rgb(27,142,89);
+.contact-i {
+    background: rgb(27, 142, 89);
 }
 
 /* PARA CONTACTO */
-.inputBox{
+.inputBox {
     position: relative;
     width: 100%;
 }
 
-.inputBox input, .inputBox textarea{
+.inputBox input,
+.inputBox textarea {
     width: 100%;
     padding: 10px;
-    border: 2px solid rgba(255,255,255, 0.25);
+    border: 2px solid rgba(255, 255, 255, 0.25);
     background: transparent;
     border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -213,13 +217,13 @@ body{
     margin: 10px 0px;
 }
 
-.inputBox span{
+.inputBox span {
     position: absolute;
     left: 0;
     padding: 22px;
     pointer-events: none;
     font-size: 1rem;
-    color: rgba(255,255,255, 0.50);
+    color: rgba(255, 255, 255, 0.50);
     transition: .2s;
     -webkit-transition: .2s;
     -moz-transition: .2s;
@@ -227,10 +231,10 @@ body{
     -o-transition: .2s;
 }
 
-.inputBox input:valid ~ span,
-.inputBox input:focus ~ span,
-.inputBox textarea:valid ~ span,
-.inputBox textarea:focus ~ span{
+.inputBox input:valid~span,
+.inputBox input:focus~span,
+.inputBox textarea:valid~span,
+.inputBox textarea:focus~span {
     color: white;
     transform: translateX(10px) translateY(2px);
     -webkit-transform: translateX(10px) translateY(2px);
@@ -239,19 +243,129 @@ body{
     -o-transform: translateX(10px) translateY(2px);
     font-size: .75rem;
     padding: 0 10px;
-    background: rgb(27,142,89);
+    background: rgb(27, 142, 89);
 }
 
-#mapa{
+#mapa {
     width: 100%;
     height: 50vh;
 }
 
-.ui-timepicker-container{
+.ui-timepicker-container {
     z-index: 9999 !important;
 }
 
 form input:required {
-    content:"*";
+    content: "*";
     border-bottom: 1px solid #aa0000;
+}
+
+/* ***********************PARA TARJETA******************** */
+
+/* Background circles end */
+
+#tipoPago1 .card-group {
+    position: relative;
+    width: 100%;    
+}
+
+#tipoPago1 .card {
+    position: relative;
+    height: 250px;
+    width: 100%;
+    border-radius: 25px;
+    background: #1488cc;
+    /* fallback for old browsers */
+    background: linear-gradient(to left, #283593, #1976d2);
+    backdrop-filter: blur(30px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 80px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+#tipoPago1 .logo img,
+#tipoPago1 .chip img,
+#tipoPago1 .number,
+#tipoPago1 .name,
+#tipoPago1 .from,
+#tipoPago1 .to,
+#tipoPago1 .ring {
+    position: absolute;
+    /* All items inside card should have absolute position */
+}
+
+#tipoPago1 .logo img {
+    top: 35px;
+    right: 40px;
+    width: 80px;
+    height: auto;
+    opacity: 0.8;
+}
+
+#tipoPago1 .chip img {
+    top: 120px;
+    left: 40px;
+    width: 50px;
+    height: auto;
+    opacity: 0.8;
+}
+
+#tipoPago1 .number,
+#tipoPago1 .name,
+#tipoPago1 .from,
+#tipoPago1 .to {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+}
+
+#tipoPago1 .number {
+    left: 40px;
+    bottom: 65px;
+    font-family: "Nunito", sans-serif;
+    font-size: 18px;
+}
+
+#tipoPago1 .name {
+    font-size: 0.5rem;
+    left: 40px;
+    bottom: 35px;
+}
+
+#tipoPago1 .from {
+    font-size: 0.7rem;
+    bottom: 35px;
+    right: 110px;
+}
+
+#tipoPago1 .to {
+    font-size: 0.7rem;
+    bottom: 35px;
+    right: 40px;
+}
+
+/* The two rings on the card background */
+#tipoPago1 .ring {
+    height: 500px;
+    width: 500px;
+    border-radius: 50%;
+    background: transparent;
+    border: 50px solid rgba(255, 255, 255, 0.1);
+    bottom: -250px;
+    right: -250px;
+    box-sizing: border-box;
+}
+
+#tipoPago1 .ring::after {
+    content: "";
+    position: absolute;
+    height: 600px;
+    width: 600px;
+    border-radius: 50%;
+    background: transparent;
+    border: 30px solid rgba(255, 255, 255, 0.1);
+    bottom: -80px;
+    right: -110px;
+    box-sizing: border-box;
 }
