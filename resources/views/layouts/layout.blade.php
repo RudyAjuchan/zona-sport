@@ -9,6 +9,7 @@
 
         <!--=============== CSS ===============-->
         <link rel="stylesheet" href="assets/css/estilo_sidebar.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
 
 
         <!-- Fonts -->
@@ -77,7 +78,7 @@
         {{-- Contenido --}}
         @yield('contenido')
 
-        <!--=============== MAIN JS ===============-->
+        <!--=============== MAIN JS ===============-->        
         <script src="assets/js/main.js"></script>
     </body>
 </html>

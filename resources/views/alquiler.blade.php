@@ -212,23 +212,32 @@
                     <form id="formReserva" name="formReserva">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-signature"></i></span>
-                            <input type="text" name="nombre" required class="form-control" placeholder="Nombre completo" aria-label="Nombre completo*" aria-describedby="basic-addon1">
+                            <input type="text" name="nombre" id="nombre" required class="form-control" placeholder="Nombre completo" aria-label="Nombre completo*" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-id-card"></i></span>
-                            <input type="text" name="dpi" required class="form-control" placeholder="DPI" aria-label="DPI*" aria-describedby="basic-addon1">
+                            <input type="text" name="dpi" id="dpi" 
+                            onkeyup="
+                                var v = this.value;
+                                if (v.match(/^\d{4}$/) !== null) {
+                                    this.value = v + ' ';
+                                }else if (v.match(/^\d{4}\ \d{5}$/) !== null) {
+                                    this.value = v + ' ';
+                                };"
+                            maxlength="15"
+                            required class="form-control" placeholder="DPI" aria-label="DPI*" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-mobile-screen-button"></i></span>
-                            <input type="text" name="telefono" required class="form-control" placeholder="Telefono" aria-label="Telefono*" aria-describedby="basic-addon1">
+                            <input type="text" name="telefono" id="telefono" required class="form-control" placeholder="Telefono" aria-label="Telefono*" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-at"></i></span>
-                            <input type="email" name="correo" required class="form-control" placeholder="Correo" aria-label="Correo*" aria-describedby="basic-addon1">
+                            <input type="email" name="correo" id="email" required class="form-control" placeholder="Correo" aria-label="Correo*" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-id-badge"></i></span>
-                            <input type="text" name="nit" class="form-control" placeholder="NIT" aria-label="NIT" aria-describedby="basic-addon1">
+                            <input type="text" name="nit" id="nit" class="form-control" placeholder="NIT" aria-label="NIT" aria-describedby="basic-addon1">
                         </div>
                         <div class="row">
                             <div class="col-md-4">
@@ -246,25 +255,25 @@
                         </div>                        
                         <div class="row mt-4 justify-content-center">
                             <div class="col-12 col-md-8 text-center">
-                                <p class="text-center">Por favor seleccione el horario.(No puedes elegir horarios salteados)</p>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn1" onclick="apartar(1);">2:00-2:30pm<br>Libre</button>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn2" onclick="apartar(2);">2:30-3:00pm<br>Libre</button>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn3" onclick="apartar(3);">3:00-3:30pm<br>Libre</button>
+                                <p class="text-center">Por favor seleccione el horario.(No puedes elegir horarios salteados, selecciona el día a reservar para habilitar)</p>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn1" onclick="apartar(1);">2:00-2:30pm<br><span id="estadoText1">Libre</span></button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn2" onclick="apartar(2);">2:30-3:00pm<br><span id="estadoText2">Libre</span></button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn3" onclick="apartar(3);">3:00-3:30pm<br><span id="estadoText3">Libre</span></button>
 
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn4" onclick="apartar(4);">3:30-4:00pm<br>Libre</button>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn5" onclick="apartar(5);">4:00-4:30pm<br>Libre</button>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn6" onclick="apartar(6);">4:30-5:00pm<br>Libre</button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn4" onclick="apartar(4);">3:30-4:00pm<br><span id="estadoText4">Libre</span></button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn5" onclick="apartar(5);">4:00-4:30pm<br><span id="estadoText5">Libre</span></button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn6" onclick="apartar(6);">4:30-5:00pm<br><span id="estadoText6">Libre</span></button>
                                 
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn7" onclick="apartar(7);">5:00-5:30pm<br>Libre</button>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn8" onclick="apartar(8);">5:30-6:00pm<br>Libre</button>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn9" onclick="apartar(9);">6:00-6:30pm<br>Libre</button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn7" onclick="apartar(7);">5:00-5:30pm<br><span id="estadoText7">Libre</span></button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn8" onclick="apartar(8);">5:30-6:00pm<br><span id="estadoText8">Libre</span></button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn9" onclick="apartar(9);">6:00-6:30pm<br><span id="estadoText9">Libre</span></button>
                                 
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn10" onclick="apartar(10);">6:30-7:00pm<br>Libre</button>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn11" onclick="apartar(11);">7:00-7:30pm<br>Libre</button>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn12" onclick="apartar(12);">7:30-8:00pm<br>Libre</button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn10" onclick="apartar(10);">6:30-7:00pm<br><span id="estadoText10">Libre</span></button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn11" onclick="apartar(11);">7:00-7:30pm<br><span id="estadoText11">Libre</span></button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn12" onclick="apartar(12);">7:30-8:00pm<br><span id="estadoText12">Libre</span></button>
                                 
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn13" onclick="apartar(13);">8:00-8:30pm<br>Libre</button>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" type="button" id="btn14" onclick="apartar(14);">8:30-9:00pm<br>Libre</button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn13" onclick="apartar(13);">8:00-8:30pm<br><span id="estadoText13">Libre</span></button>
+                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn14" onclick="apartar(14);">8:30-9:00pm<br><span id="estadoText14">Libre</span></button>
                             </div>
                         </div>
                     </form>
@@ -370,7 +379,8 @@
                             Para llevar a cabo este procedimiento, siga los siguientes pasos:
                             <br>
                             <ol>
-                                <li>Seleccione el banco de su preferencia.</li>
+                                <li>Presione confirmar y reservar para generar una orden de reserva</li>
+                                <li>Elija el banco de su preferencia.</li>
                                 <li>Realice el depósito según el monto indicado.</li>
                                 <li>Una vez realizado el depósito, envíe una captura del comprobante al número +502 54125425 para validar el pago.</li>
                                 <li>Una vez validado el pago, procederemos a reservar y enviarle el comprobante a la dirección de correo proporcionada.</li>
@@ -406,14 +416,14 @@
                             </ul>
                         </div>
 
-                        <div id="tipoPago3">
+                        <div id="tipoPago3" class="my-5">
                             <h4>Pago en Efectivo</h4>
                             <br>
                             <h5 class="text-end"><b>Total a cancelar Q. <span style="color: red">150.00</span></b></h5>
                             <br><br>
                             <p>
                                 Para este método de pago consta de la siguiente manera; Una vez elegido el tipo de pago efectivo, deberá cancelar en las
-                                instalaciones de la cancha, deberá cancelar previo a utilizar la cancha.
+                                instalaciones de la cancha, deberá cancelar previo a utilizar la cancha. El comprobante le llegará a su correo luego de cancelar en las instalaciones
                             </p>
                         </div>
                     </form>
@@ -427,11 +437,13 @@
         </div>
     </div>
 
+    <script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
     <script src="assets/js/user.js"></script>
     <script src="assets/js/scroll.js"></script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>

@@ -2,6 +2,7 @@ AOS.init({duration: 1000});
 jQuery.datetimepicker.setLocale('es');
 
 let horas = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+let fechaG = "";
 
     $(document).ready(function(){
         if($("#fecha").length){
@@ -17,7 +18,13 @@ let horas = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
             document.getElementById("fecha").min = anio+'-'+mes+'-'+dia;
             $('#fecha').datetimepicker({
                 timepicker:false,
+                format:'Y-m-d',
                 minDate: anio+'/'+mes+'/'+dia,
+                onChangeDateTime:function(dp,$input){
+                    if($input.val()!=""){
+                        cargarHorario();
+                    }
+                }
             });
         }
         
@@ -165,7 +172,12 @@ function apartar(id){
                 break;
         }
     }else{
-        alert("!No se puede reservar en medio de un horario ocupado!, le recomendamos hacer reservas individuales")
+        swal({
+            icon: "warning",
+            title: "Atención",
+            text: "!No se puede reservar en medio de un horario ocupado!, le recomendamos hacer reservas individuales",
+        });
+        /* alert("!No se puede reservar en medio de un horario ocupado!, le recomendamos hacer reservas individuales") */
         horas[posicionF]=0;
     }
 }
@@ -179,6 +191,7 @@ function reset(){
     $("#tipoPago2").hide();
     $("#tipoPago3").hide();
     $('#formTarjeta').trigger("reset");
+    resetearButtons();
 }
 
 function abrirModoPago(){
@@ -186,7 +199,12 @@ function abrirModoPago(){
     var form = document.getElementById('formReserva');
 
     if (!form.checkValidity()) {
-        alert("Completa los campos para continuar, revisa si el correo introducido es un correo válido")
+        swal({
+            icon: "warning",
+            title: "Atención",
+            text: "Completa los campos para continuar, revisa si el correo introducido es un correo válido",
+        });
+        /* alert("Completa los campos para continuar, revisa si el correo introducido es un correo válido") */
     }else{
         var myModalEl = document.getElementById('modalId');
         var modal = bootstrap.Modal.getInstance(myModalEl)
@@ -229,5 +247,210 @@ function mostrarPago(){
         $('#tipoPago1').hide(500);
         $('#tipoPago2').hide(500);
         $('#tipoPago3').fadeIn(500);
+    }
+}
+
+function guardarReserva(){
+    var form = document.getElementById('formTarjeta');
+    if($("#tipoPago").val()==1){
+        if (!form.checkValidity()) {
+            swal({
+                icon: "warning",
+                title: "Atención",
+                text: "Complete los campos por favor",
+            })
+        }else{
+            swal({
+                icon: "success",
+                title: "Atención",
+                text: "¡Pago con tarjeta!",
+            }).then(function () {
+                window.location.href = "/alquilar";
+            });
+        }
+    }else if($("#tipoPago").val()==2){
+
+        axios({
+            url: "http://localhost:8070/crud_pasteleria/IngredientesController/guardar",
+            method: "post",
+            data: formData
+        }).then((res) =>{                           
+            swal({
+                icon: "success",
+                title: "Atención",
+                text: "¡Se ha registrado correctamente!",
+            }).then(function () {
+                window.location.href = "http://localhost:8070/crud_pasteleria/Page/ingrediente";
+            });
+        }).catch((err) => {
+            console.log(err);
+        })
+
+        swal({
+            icon: "success",
+            title: "Atención",
+            text: "¡Pago previo deposito!",
+        }).then(function () {
+            window.location.href = "/alquilar";
+        });
+    }else if($("#tipoPago").val()==3){
+        swal({
+            icon: "success",
+            title: "Atención",
+            text: "¡Pago efectivo!",
+        }).then(function () {
+            window.location.href = "/alquilar";
+        });
+    }else{
+        swal({
+            icon: "warning",
+            title: "Atención",
+            text: "Seleccione un método de pago",
+        })
+    }
+}
+
+function cargarHorario(){
+    var formData= new FormData();
+        formData.append("fecha", document.getElementById("fecha").value);    
+    axios({
+        url: "/getReserva",
+        method: "post",
+        data: formData,
+    }).then((res) =>{         
+        var datos=res.data;
+        /* console.log(datos); */
+        $("#hora").val("");
+        $("#hora2").val("");
+        if(fechaG!=document.getElementById("fecha").value){
+            for(var i=0; i<horas.length; i++){
+                horas[i]=0;
+            }
+            resetearButtons();
+        }
+        fechaG=document.getElementById("fecha").value;
+        if(datos!=""){
+            datos.forEach(Reserva => {                
+                var h_inicio=new Date("July 7, 2023 "+Reserva.h_inicio);
+                var h_terminar=new Date("July 7, 2023 "+Reserva.h_terminar);
+                var m_inicio, m_terminar;            
+                var contI, contF, contadorCiclo;            
+                
+                m_inicio = h_inicio.getMinutes();
+                m_terminar = h_terminar.getMinutes();
+                h_inicio = h_inicio.getHours();
+                h_terminar = h_terminar.getHours();
+    
+                contF = (h_terminar-h_inicio)/0.5;
+                if(m_terminar==m_inicio){
+                    /* contI = (m_terminar+m_inicio)/30; */
+                    contadorCiclo=contF;
+                }else if(m_inicio<m_terminar){
+                    contI = (m_terminar-m_inicio)/30;
+                    contadorCiclo=contF+contI;
+                }else{
+                    contI = (m_inicio-m_terminar)/30;
+                    contadorCiclo=contF-contI;
+                }
+                var posicionInicio;
+                posicionInicio = casosHora(h_inicio, m_inicio);
+    
+                /* console.log(posicionInicio); */
+                habilitarHorario(posicionInicio, contadorCiclo);
+                
+            });
+        }else{
+            habilitarHorarioTodoLibre();
+        }
+        
+    }).catch((err) => {
+        console.log(err);
+    })
+}
+
+
+function casosHora(hora, minutos){
+    if(hora==14 && minutos==0){
+        return 0;
+    }else if(hora==14 && minutos==30){
+        return 1;
+    }
+    /* *************** */
+    if(hora==15 && minutos==0){
+        return 2;
+    }else if(hora==15 && minutos==30){
+        return 3;
+    }
+    /* *************** */
+    if(hora==16 && minutos==0){
+        return 4;
+    }else if(hora==16 && minutos==30){
+        return 5;
+    }
+    /* *************** */
+    if(hora==17 && minutos==0){
+        return 6;
+    }else if(hora==17 && minutos==30){
+        return 7;
+    }
+    /* *************** */
+    if(hora==18 && minutos==0){
+        return 8;
+    }else if(hora==18 && minutos==30){
+        return 9;
+    }
+    /* *************** */
+    if(hora==19 && minutos==0){
+        return 10;
+    }else if(hora==19 && minutos==30){
+        return 11;
+    }
+    /* *************** */
+    if(hora==20 && minutos==0){
+        return 12;
+    }else if(hora==20 && minutos==30){
+        return 13;
+    }
+}
+
+function habilitarHorario(inicio, contador){
+    for(var i=inicio; i<=(inicio+(contador-1)); i++){
+        horas[i]=3;
+        document.querySelector('#btn'+(i+1)).classList.remove('btn-secondary');
+        document.querySelector('#btn'+(i+1)).classList.remove('btn-info');
+        document.querySelector('#btn'+(i+1)).classList.add('btn-danger');
+        document.querySelector('#btn'+(i+1)).disabled = true;
+        document.querySelector('#estadoText'+(i+1)).textContent = "Ocupado";
+    }
+
+    for(var i=0; i<horas.length; i++){
+        if($("#btn"+(i+1)).hasClass("btn-danger") || $("#btn"+(i+1)).hasClass("btn-warning")){
+            document.querySelector('#btn'+(i+1)).disabled = true;
+        }else{
+            document.querySelector('#btn'+(i+1)).disabled = false;
+        }
+    }    
+}
+
+function habilitarHorarioTodoLibre(){
+    for(var i=0; i<horas.length; i++){
+        horas[i]=0;
+    }
+    for(var i=0; i<horas.length; i++){
+        document.querySelector('#btn'+(i+1)).classList.remove('btn-info');
+        document.querySelector('#btn'+(i+1)).classList.remove('btn-danger');
+        document.querySelector('#btn'+(i+1)).classList.add('btn-secondary');
+        document.querySelector('#btn'+(i+1)).disabled = false;
+        document.querySelector('#estadoText'+(i+1)).textContent = "Libre";
+    }
+}
+
+function resetearButtons(){
+    for(var i=0; i<horas.length; i++){
+        document.querySelector('#btn'+(i+1)).classList.remove('btn-info');
+        document.querySelector('#btn'+(i+1)).classList.remove('btn-danger');
+        document.querySelector('#btn'+(i+1)).classList.add('btn-secondary');
+        document.querySelector('#btn'+(i+1)).disabled = true;
+        document.querySelector('#estadoText'+(i+1)).textContent = "Libre";
     }
 }
