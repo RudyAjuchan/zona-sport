@@ -30,7 +30,20 @@ class ReservaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $reserva = new Reservas();
+        $reserva->nombre = $request->nombre;
+        $reserva->dpi = $request->dpi;
+        $reserva->telefono = $request->telefono;
+        $reserva->correo = $request->email;
+        $reserva->nit = $request->nit;
+        $reserva->fecha = $request->fecha;
+        $reserva->h_inicio = $request->h_inicio;
+        $reserva->h_terminar = $request->h_terminar;
+        $reserva->tipo_pago = $request->tipo_pago;
+        $reserva->estado = $request->estado;
+        $reserva->save();
+        return $request;
     }
 
     /**

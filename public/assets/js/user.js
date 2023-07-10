@@ -260,47 +260,93 @@ function guardarReserva(){
                 text: "Complete los campos por favor",
             })
         }else{
+            /* **************** AQUÍ DEBE IR LA TRANSACCIÓN DE LA TARJETA********** */
+
+            /* **************** AQUÍ DEBE IR LA TRANSACCIÓN DE LA TARJETA********** */
+            var formData = new FormData();
+            formData.append('nombre', document.getElementById("nombre").value);
+            formData.append('dpi', document.getElementById("dpi").value);
+            formData.append('telefono', document.getElementById("telefono").value);
+            formData.append('email', document.getElementById("email").value);
+            formData.append('nit', document.getElementById("nit").value);
+            formData.append('fecha', document.getElementById("fecha").value);
+            formData.append('h_inicio', document.getElementById("hora").value);
+            formData.append('h_terminar', document.getElementById("hora2").value);
+            formData.append('tipo_pago', 1);
+            formData.append('estado', 1);
+            axios({
+                url: "/guardarReserva",
+                method: "post",
+                data: formData
+            }).then((res) =>{
+                console.log(res.data);                           
+                swal({
+                    icon: "success",
+                    title: "Atención",
+                    text: "¡Se ha registrado correctamente, recuerde que el comprobante le hemos mandado al correo que dejó, si no recibe el comprobante escribir al número 54256545",
+                }).then(function () {
+                    window.location.href = "/alquilar";
+                });
+            }).catch((err) => {
+                console.log(err);
+            })
+        }
+    }else if($("#tipoPago").val()==2){
+        var formData = new FormData();
+        formData.append('nombre', document.getElementById("nombre").value);
+        formData.append('dpi', document.getElementById("dpi").value);
+        formData.append('telefono', document.getElementById("telefono").value);
+        formData.append('email', document.getElementById("email").value);
+        formData.append('nit', document.getElementById("nit").value);
+        formData.append('fecha', document.getElementById("fecha").value);
+        formData.append('h_inicio', document.getElementById("hora").value);
+        formData.append('h_terminar', document.getElementById("hora2").value);
+        formData.append('tipo_pago', 2);
+        formData.append('estado', 4);
+        axios({
+            url: "/guardarReserva",
+            method: "post",
+            data: formData
+        }).then((res) =>{
+            console.log(res.data);                           
             swal({
                 icon: "success",
                 title: "Atención",
-                text: "¡Pago con tarjeta!",
+                text: "¡Se ha registrado correctamente, recuerde hacer el pago y mandar la captura al número 25463254!",
             }).then(function () {
                 window.location.href = "/alquilar";
             });
-        }
-    }else if($("#tipoPago").val()==2){
-
+        }).catch((err) => {
+            console.log(err);
+        })        
+    }else if($("#tipoPago").val()==3){
+        var formData = new FormData();
+        formData.append('nombre', document.getElementById("nombre").value);
+        formData.append('dpi', document.getElementById("dpi").value);
+        formData.append('telefono', document.getElementById("telefono").value);
+        formData.append('email', document.getElementById("email").value);
+        formData.append('nit', document.getElementById("nit").value);
+        formData.append('fecha', document.getElementById("fecha").value);
+        formData.append('h_inicio', document.getElementById("hora").value);
+        formData.append('h_terminar', document.getElementById("hora2").value);
+        formData.append('tipo_pago', 3);
+        formData.append('estado', 2);
         axios({
-            url: "http://localhost:8070/crud_pasteleria/IngredientesController/guardar",
+            url: "/guardarReserva",
             method: "post",
             data: formData
-        }).then((res) =>{                           
+        }).then((res) =>{
+            console.log(res.data);                           
             swal({
                 icon: "success",
                 title: "Atención",
-                text: "¡Se ha registrado correctamente!",
+                text: "¡Se ha registrado correctamente, en su correo le hemos enviado un comprobante, debe presentarlo para cancelar en las instalaciones",
             }).then(function () {
-                window.location.href = "http://localhost:8070/crud_pasteleria/Page/ingrediente";
+                window.location.href = "/alquilar";
             });
         }).catch((err) => {
             console.log(err);
         })
-
-        swal({
-            icon: "success",
-            title: "Atención",
-            text: "¡Pago previo deposito!",
-        }).then(function () {
-            window.location.href = "/alquilar";
-        });
-    }else if($("#tipoPago").val()==3){
-        swal({
-            icon: "success",
-            title: "Atención",
-            text: "¡Pago efectivo!",
-        }).then(function () {
-            window.location.href = "/alquilar";
-        });
     }else{
         swal({
             icon: "warning",
@@ -452,5 +498,13 @@ function resetearButtons(){
         document.querySelector('#btn'+(i+1)).classList.add('btn-secondary');
         document.querySelector('#btn'+(i+1)).disabled = true;
         document.querySelector('#estadoText'+(i+1)).textContent = "Libre";
+    }
+}
+
+function habilitarBoton(){
+    if($("#terminos").is(":checked")){
+        $("#btn-reservar").prop('disabled',false);
+    }else{
+        $("#btn-reservar").prop('disabled',true);
     }
 }

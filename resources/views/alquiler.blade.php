@@ -426,11 +426,16 @@
                                 instalaciones de la cancha, deberá cancelar previo a utilizar la cancha. El comprobante le llegará a su correo luego de cancelar en las instalaciones
                             </p>
                         </div>
+
+                        <br>
+                        <a href="/terminos" target="_blank">Lee nuestros términos</a><br>
+
+                        <input type="checkbox" name="terminos" id="terminos" onclick="habilitarBoton()"><label for="terminos"> He leido y acepto los terminos y condiciones</label>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" onclick="regresar();">Atrás</button>
-                    <button type="button" class="btn btn-success" onclick="guardarReserva();">Confirmar y reservar</button>
+                    <button type="button" class="btn btn-success" id="btn-reservar" onclick="guardarReserva();" disabled>Confirmar y reservar</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="reset();">Cancelar</button>
                 </div>
             </div>

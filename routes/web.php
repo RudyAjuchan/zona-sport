@@ -46,5 +46,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::post('/getReserva',[ReservaController::class, 'index'])->name('Horario.get');
+Route::post('/guardarReserva', [ReservaController::class, 'store'])->name('guardar.reserva');
 
 require __DIR__.'/auth.php';

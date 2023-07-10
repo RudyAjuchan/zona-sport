@@ -11,16 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reservas', function (Blueprint $table) {
+        Schema::create('reservas_detalles', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('dpi');
-            $table->string('telefono');
-            $table->string('correo');
-            $table->string('nit')->nullable();
-            $table->date('fecha');
-            $table->integer('tipo_pago');
-            $table->integer('estado');
+            $table->foreignId('horas_id')->constrained('horas');
+            $table->foreignId('reservas_id')->constrained('reservas');
             $table->timestamps();
         });
     }
@@ -30,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reservas');
+        Schema::dropIfExists('reservas_detalles');
     }
 };
