@@ -254,26 +254,10 @@
                             </div>
                         </div>                        
                         <div class="row mt-4 justify-content-center">
-                            <div class="col-12 col-md-8 text-center">
-                                <p class="text-center">Por favor seleccione el horario.(No puedes elegir horarios salteados, selecciona el día a reservar para habilitar)</p>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn1" onclick="apartar(1);">2:00-2:30pm<br><span id="estadoText1">Libre</span></button>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn2" onclick="apartar(2);">2:30-3:00pm<br><span id="estadoText2">Libre</span></button>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn3" onclick="apartar(3);">3:00-3:30pm<br><span id="estadoText3">Libre</span></button>
-
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn4" onclick="apartar(4);">3:30-4:00pm<br><span id="estadoText4">Libre</span></button>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn5" onclick="apartar(5);">4:00-4:30pm<br><span id="estadoText5">Libre</span></button>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn6" onclick="apartar(6);">4:30-5:00pm<br><span id="estadoText6">Libre</span></button>
-                                
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn7" onclick="apartar(7);">5:00-5:30pm<br><span id="estadoText7">Libre</span></button>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn8" onclick="apartar(8);">5:30-6:00pm<br><span id="estadoText8">Libre</span></button>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn9" onclick="apartar(9);">6:00-6:30pm<br><span id="estadoText9">Libre</span></button>
-                                
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn10" onclick="apartar(10);">6:30-7:00pm<br><span id="estadoText10">Libre</span></button>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn11" onclick="apartar(11);">7:00-7:30pm<br><span id="estadoText11">Libre</span></button>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn12" onclick="apartar(12);">7:30-8:00pm<br><span id="estadoText12">Libre</span></button>
-                                
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn13" onclick="apartar(13);">8:00-8:30pm<br><span id="estadoText13">Libre</span></button>
-                                <button class="btn btn-secondary btn-sm mt-2 btn-alquilar" disabled type="button" id="btn14" onclick="apartar(14);">8:30-9:00pm<br><span id="estadoText14">Libre</span></button>
+                            <div class="col-12 text-center">
+                                <div id="content-btn">
+                                    {{-- Aquí se generan los botones --}}
+                                </div>                                
                             </div>
                         </div>
                     </form>

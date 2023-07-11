@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\detalle_horas;
+use App\Models\horas;
 use App\Models\Reservas;
+use App\Models\reservas_detalle;
+use Illuminate\Support\Facades\DB;
 
 class ReservaController extends Controller
 {
@@ -12,11 +16,21 @@ class ReservaController extends Controller
      */
     public function index(Request $request)
     {
+        $dia_id = $request->dia_id;
         $fecha = $request->fecha;
-        $horarios = Reservas::where('fecha',$fecha)->get();
-        return $horarios;
+        $horarios = detalle_horas::with(['Horas', 'Dias'])->where('dias_id', $dia_id)->get();
+        $reservados = DB::table('reservas_detalles')->join('reservas','reservas_detalles.reservas_id', '=', 'reservas.id')->where('reservas.fecha',$fecha)->get();
+        return compact('horarios', 'reservados');
     }
 
+    public function obtenerHoras(Request $request)
+    {
+        $horaI = $request->horaI;
+        $horaF = $request->horaF;
+        $datosHI = horas::where('id',$horaI)->first();
+        $datosHF = horas::where('id',$horaF)->first();
+        return compact('datosHI', 'datosHF');
+    }
     /**
      * Show the form for creating a new resource.
      */

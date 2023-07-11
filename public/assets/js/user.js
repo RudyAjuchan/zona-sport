@@ -1,8 +1,7 @@
 AOS.init({duration: 1000});
 jQuery.datetimepicker.setLocale('es');
 
-let horas = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-let fechaG = "";
+let btnI=0, btnF=0;
 
     $(document).ready(function(){
         if($("#fecha").length){
@@ -33,154 +32,6 @@ let fechaG = "";
         $("#tipoPago3").hide();
     });
 
-function apartar(id){    
-    if(horas[id-1]==1){
-        horas[id-1] = 0;
-    }else{
-        horas[id-1] = 1;
-    }        
-
-    var posicionI="";
-    for(var i=0; i<horas.length; i++){
-        if(horas[i]==1){
-            posicionI=i;
-            break;
-        }else{
-            posicionI="";
-        }
-    }
-
-    var posicionF="";
-    for(var i=horas.length-1; i>=0; i--){
-        if(horas[i]==1){
-            posicionF=i;
-            break;
-        }else{
-            posicionF="";
-        }
-    }
-
-    //Para autorelleno
-    var banderaError = false;
-    for(var i=posicionI; i<=posicionF; i++){
-        if(horas[i]==3){
-            banderaError=true;
-        }
-    }
-    if(!banderaError){
-        for(var i=posicionI; i<=posicionF; i++){
-            horas[i]=1;
-        }
-        for(var i=0; i<horas.length; i++){
-            if(horas[i]==1){            
-                document.querySelector('#btn'+(i+1)).classList.remove('btn-secondary');
-                document.querySelector('#btn'+(i+1)).classList.add('btn-info');
-            }else{
-                document.querySelector('#btn'+(i+1)).classList.add('btn-secondary');
-                document.querySelector('#btn'+(i+1)).classList.remove('btn-info');
-            }
-        }
-    
-        //Para input hora inicio
-        switch (posicionI){
-            case 0:
-                document.querySelector("#hora").value = "14:00"
-                break;
-            case 1:
-                document.querySelector("#hora").value = "14:30"
-                break;
-            case 2:
-                document.querySelector("#hora").value = "15:00"
-                break;
-            case 3:
-                document.querySelector("#hora").value = "15:30"
-                break;
-            case 4:
-                document.querySelector("#hora").value = "16:00"
-                break;
-            case 5:
-                document.querySelector("#hora").value = "16:30"
-                break;
-            case 6:
-                document.querySelector("#hora").value = "17:00"
-                break;
-            case 7:
-                document.querySelector("#hora").value = "17:30"
-                break;
-            case 8:
-                document.querySelector("#hora").value = "18:00"
-                break;
-            case 9:
-                document.querySelector("#hora").value = "18:30"
-                break;
-            case 10:
-                document.querySelector("#hora").value = "19:00"
-                break;
-            case 11:
-                document.querySelector("#hora").value = "19:30"
-                break;
-            case 12:
-                document.querySelector("#hora").value = "20:00"
-                break;
-            case 13:
-                document.querySelector("#hora").value = "20:30"
-                break;
-        }
-        //Para input hora Final
-        switch (posicionF){        
-            case 0:
-                document.querySelector("#hora2").value = "14:30"
-                break;
-            case 1:
-                document.querySelector("#hora2").value = "15:00"
-                break;
-            case 2:
-                document.querySelector("#hora2").value = "15:30"
-                break;
-            case 3:
-                document.querySelector("#hora2").value = "16:00"
-                break;
-            case 4:
-                document.querySelector("#hora2").value = "16:30"
-                break;
-            case 5:
-                document.querySelector("#hora2").value = "17:00"
-                break;
-            case 6:
-                document.querySelector("#hora2").value = "17:30"
-                break;
-            case 7:
-                document.querySelector("#hora2").value = "18:00"
-                break;
-            case 8:
-                document.querySelector("#hora2").value = "18:30"
-                break;
-            case 9:
-                document.querySelector("#hora2").value = "19:00"
-                break;
-            case 10:
-                document.querySelector("#hora2").value = "19:30"
-                break;
-            case 11:
-                document.querySelector("#hora2").value = "20:00"
-                break;
-            case 12:
-                document.querySelector("#hora2").value = "20:30"
-                break;
-            case 13:
-                document.querySelector("#hora2").value = "21:00"
-                break;
-        }
-    }else{
-        swal({
-            icon: "warning",
-            title: "Atención",
-            text: "!No se puede reservar en medio de un horario ocupado!, le recomendamos hacer reservas individuales",
-        });
-        /* alert("!No se puede reservar en medio de un horario ocupado!, le recomendamos hacer reservas individuales") */
-        horas[posicionF]=0;
-    }
-}
 
 function reset(){
     $('#formReserva').trigger("reset");
@@ -357,154 +208,105 @@ function guardarReserva(){
 }
 
 function cargarHorario(){
+    var dia = new Date($("#fecha").val()).getDay();
+    var dia_id;
+    if(dia>=0 && dia <=4){
+        dia_id=1;
+        btnI=13;
+        btnF=26;
+    }else if(dia==5){
+        dia_id=2;
+        btnI=1;
+        btnF=26;
+    }else if(dia==6){
+        dia_id=3;
+        btnI=11;
+        btnF=26;
+    }
     var formData= new FormData();
-        formData.append("fecha", document.getElementById("fecha").value);    
+        formData.append("dia_id", dia_id);
+        formData.append("fecha", document.getElementById("fecha").value);
+    
     axios({
         url: "/getReserva",
         method: "post",
         data: formData,
-    }).then((res) =>{         
-        var datos=res.data;
-        /* console.log(datos); */
-        $("#hora").val("");
-        $("#hora2").val("");
-        if(fechaG!=document.getElementById("fecha").value){
-            for(var i=0; i<horas.length; i++){
-                horas[i]=0;
-            }
-            resetearButtons();
-        }
-        fechaG=document.getElementById("fecha").value;
-        if(datos!=""){
-            datos.forEach(Reserva => {                
-                var h_inicio=new Date("July 7, 2023 "+Reserva.h_inicio);
-                var h_terminar=new Date("July 7, 2023 "+Reserva.h_terminar);
-                var m_inicio, m_terminar;            
-                var contI, contF, contadorCiclo;            
-                
-                m_inicio = h_inicio.getMinutes();
-                m_terminar = h_terminar.getMinutes();
-                h_inicio = h_inicio.getHours();
-                h_terminar = h_terminar.getHours();
-    
-                contF = (h_terminar-h_inicio)/0.5;
-                if(m_terminar==m_inicio){
-                    /* contI = (m_terminar+m_inicio)/30; */
-                    contadorCiclo=contF;
-                }else if(m_inicio<m_terminar){
-                    contI = (m_terminar-m_inicio)/30;
-                    contadorCiclo=contF+contI;
-                }else{
-                    contI = (m_inicio-m_terminar)/30;
-                    contadorCiclo=contF-contI;
+    }).then((res) =>{
+        $("#content-btn").empty();
+        $("#content-btn").append('<p class="text-center">Por favor seleccione el horario.(No puedes elegir horarios salteados, selecciona el día a reservar para habilitar)</p>');
+        res.data.horarios.forEach(H => {
+            var banderaBTN = false;
+            res.data.reservados.forEach(R => {
+                if(R.horas_id==H.horas.id){
+                    banderaBTN=true;
                 }
-                var posicionInicio;
-                posicionInicio = casosHora(h_inicio, m_inicio);
-    
-                /* console.log(posicionInicio); */
-                habilitarHorario(posicionInicio, contadorCiclo);
-                
             });
-        }else{
-            habilitarHorarioTodoLibre();
-        }
-        
+            if(banderaBTN){
+                $("#content-btn").append('<button class="btn btn-danger disabled btn-sm mt-2 me-1 btn-alquilar" type="button" id="btn'+ H.horas.id +'" onclick="apartar('+ H.horas.id +');">'+ H.horas.nombre +'<br><span id="estadoText'+ H.horas.id +'">Ocupado</span></button>');
+            }else{
+                $("#content-btn").append('<button class="btn btn-secondary btn-sm mt-2 me-1 btn-alquilar" type="button" id="btn'+ H.horas.id +'" onclick="apartar('+ H.horas.id +');">'+ H.horas.nombre +'<br><span id="estadoText'+ H.horas.id +'">Libre</span></button>');
+            }            
+        });        
     }).catch((err) => {
         console.log(err);
     })
 }
 
-
-function casosHora(hora, minutos){
-    if(hora==14 && minutos==0){
-        return 0;
-    }else if(hora==14 && minutos==30){
-        return 1;
-    }
-    /* *************** */
-    if(hora==15 && minutos==0){
-        return 2;
-    }else if(hora==15 && minutos==30){
-        return 3;
-    }
-    /* *************** */
-    if(hora==16 && minutos==0){
-        return 4;
-    }else if(hora==16 && minutos==30){
-        return 5;
-    }
-    /* *************** */
-    if(hora==17 && minutos==0){
-        return 6;
-    }else if(hora==17 && minutos==30){
-        return 7;
-    }
-    /* *************** */
-    if(hora==18 && minutos==0){
-        return 8;
-    }else if(hora==18 && minutos==30){
-        return 9;
-    }
-    /* *************** */
-    if(hora==19 && minutos==0){
-        return 10;
-    }else if(hora==19 && minutos==30){
-        return 11;
-    }
-    /* *************** */
-    if(hora==20 && minutos==0){
-        return 12;
-    }else if(hora==20 && minutos==30){
-        return 13;
-    }
-}
-
-function habilitarHorario(inicio, contador){
-    for(var i=inicio; i<=(inicio+(contador-1)); i++){
-        horas[i]=3;
-        document.querySelector('#btn'+(i+1)).classList.remove('btn-secondary');
-        document.querySelector('#btn'+(i+1)).classList.remove('btn-info');
-        document.querySelector('#btn'+(i+1)).classList.add('btn-danger');
-        document.querySelector('#btn'+(i+1)).disabled = true;
-        document.querySelector('#estadoText'+(i+1)).textContent = "Ocupado";
+function apartar(id){
+    /* $("#btn"+id).prop('disabled',true); */
+    var btn = document.querySelector('#btn'+id);
+    var posI, posF;
+    if(btn.classList.contains('btn-secondary')){
+        btn.classList.remove('btn-secondary');        
+        btn.classList.add('btn-info');
+    }else{
+        btn.classList.remove('btn-info');
+        btn.classList.add('btn-secondary');
     }
 
-    for(var i=0; i<horas.length; i++){
-        if($("#btn"+(i+1)).hasClass("btn-danger") || $("#btn"+(i+1)).hasClass("btn-warning")){
-            document.querySelector('#btn'+(i+1)).disabled = true;
-        }else{
-            document.querySelector('#btn'+(i+1)).disabled = false;
+    for(var i=btnI; i<=btnF; i++){
+        if(document.querySelector("#btn"+i).classList.contains("btn-info")){
+            posI=i;
+            break;
         }
     }    
-}
 
-function habilitarHorarioTodoLibre(){
-    for(var i=0; i<horas.length; i++){
-        horas[i]=0;
+    for(var i=btnF; i>=btnI; i--){
+        if(document.querySelector("#btn"+i).classList.contains("btn-info")){
+            posF=i;
+            break;
+        }
     }
-    for(var i=0; i<horas.length; i++){
-        document.querySelector('#btn'+(i+1)).classList.remove('btn-info');
-        document.querySelector('#btn'+(i+1)).classList.remove('btn-danger');
-        document.querySelector('#btn'+(i+1)).classList.add('btn-secondary');
-        document.querySelector('#btn'+(i+1)).disabled = false;
-        document.querySelector('#estadoText'+(i+1)).textContent = "Libre";
-    }
-}
 
-function resetearButtons(){
-    for(var i=0; i<horas.length; i++){
-        document.querySelector('#btn'+(i+1)).classList.remove('btn-info');
-        document.querySelector('#btn'+(i+1)).classList.remove('btn-danger');
-        document.querySelector('#btn'+(i+1)).classList.add('btn-secondary');
-        document.querySelector('#btn'+(i+1)).disabled = true;
-        document.querySelector('#estadoText'+(i+1)).textContent = "Libre";
-    }
-}
+    var formData= new FormData();
+    formData.append("horaI", posI);
+    formData.append("horaF", posF);
+    axios({
+        url: "/obtenerHoras",
+        method: "post",
+        data: formData
+    }).then((res) =>{
+        $("#hora").val(res.data.datosHI.h_inicio);
+        $("#hora2").val(res.data.datosHF.h_fin);
+    }).catch((err) => {
+        console.log(err);
+    })
 
-function habilitarBoton(){
-    if($("#terminos").is(":checked")){
-        $("#btn-reservar").prop('disabled',false);
-    }else{
-        $("#btn-reservar").prop('disabled',true);
+    for(var i=posI; i<=posF; i++){
+        if(document.querySelector("#btn"+i).classList.contains('btn-danger')){
+            $("#hora").val('');
+            $("#hora2").val('');
+            $("#fecha").val("");
+            $("#content-btn").empty(); 
+            /* swal({
+                icon: "warning",
+                title: "Atención",
+                text: "!No se puede reservar en medio de un horario ocupado!, le recomendamos hacer reservas individuales, por favor vuelva a elegir el día de nuevo",
+            }); */
+            break;
+        }else{
+            document.querySelector("#btn"+i).classList.remove('btn-secondary');        
+            document.querySelector("#btn"+i).classList.add('btn-info');
+        }        
     }
 }

@@ -14,7 +14,7 @@ class DetalleHoraSeeder extends Seeder
     public function run(): void
     {
         //Horario entre semana
-        for($i=13; $i<=25; $i++){
+        for($i=13; $i<=26; $i++){
             DB::table('detalle_horas')
             ->insert(array(
                 'horas_id' => $i,
@@ -23,7 +23,7 @@ class DetalleHoraSeeder extends Seeder
         }
         
         //Horario para sábados
-        for($i=1; $i<=25; $i++){
+        for($i=1; $i<=26; $i++){
             DB::table('detalle_horas')
             ->insert(array(
                 'horas_id' => $i,
@@ -32,7 +32,7 @@ class DetalleHoraSeeder extends Seeder
         }
 
         //Horario para domingos
-        for($i=11; $i<=25; $i++){
+        for($i=11; $i<=26; $i++){
             DB::table('detalle_horas')
             ->insert(array(
                 'horas_id' => $i,
