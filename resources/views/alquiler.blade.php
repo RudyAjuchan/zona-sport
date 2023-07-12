@@ -205,11 +205,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalTitleId">Formulario de reserva</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reset();"></button>
                 </div>
                 <div class="modal-body">
                     <span>Los datos con borde rojo son obligatorios (completa los datos para continuar)</span>
-                    <form id="formReserva" name="formReserva">
+                    <form id="formReserva" name="formReserva">                        
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-signature"></i></span>
                             <input type="text" name="nombre" id="nombre" required class="form-control" placeholder="Nombre completo" aria-label="Nombre completo*" aria-describedby="basic-addon1">
@@ -238,6 +238,10 @@
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-id-badge"></i></span>
                             <input type="text" name="nit" id="nit" class="form-control" placeholder="NIT" aria-label="NIT" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="align-items-center d-flex">
+                            <label for="luz" class="my-2 text-primary">Con luz (selecciona si quieres usar luz)</label>
+                            <input type="checkbox" name="luz" class="my-2" id="luz">
                         </div>
                         <div class="row">
                             <div class="col-md-4">
@@ -276,7 +280,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalTitleId">Modo de pago</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reset();"></button>
                 </div>
                 <div class="modal-body px-5">
                     <form name="formTarjeta" id="formTarjeta">
@@ -290,7 +294,7 @@
 
                         <div id="tipoPago1">
                             <h4 class="mt-4">Por favor complete los datos</h4>
-                            <h5 class="text-end"><b>Total a cancelar Q. <span style="color: red">150.00</span></b></h5>
+                            <h5 class="text-end"><b>Total a cancelar Q. <span style="color: red" class="textPago1">150.00</span></b></h5>
                             <div class="row">
                                 <div class="col-xl-5 col-lg-6">
                                     <div class="card-group my-4">
@@ -370,7 +374,7 @@
                                 <li>Una vez validado el pago, procederemos a reservar y enviarle el comprobante a la dirección de correo proporcionada.</li>
                             </ol>                            
                             <br>
-                            <h5 class="text-end"><b>Total a cancelar Q. <span style="color: red">150.00</span></b></h5>
+                            <h5 class="text-end"><b>Total a cancelar Q. <span style="color: red" class="textPago2">150.00</span></b></h5>
                             <br><br>
                             Bancos disponibles
                             <ul>
@@ -403,7 +407,7 @@
                         <div id="tipoPago3" class="my-5">
                             <h4>Pago en Efectivo</h4>
                             <br>
-                            <h5 class="text-end"><b>Total a cancelar Q. <span style="color: red">150.00</span></b></h5>
+                            <h5 class="text-end"><b>Total a cancelar Q. <span style="color: red" class="textPago3">150.00</span></b></h5>
                             <br><br>
                             <p>
                                 Para este método de pago consta de la siguiente manera; Una vez elegido el tipo de pago efectivo, deberá cancelar en las

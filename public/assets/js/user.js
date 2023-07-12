@@ -2,6 +2,8 @@ AOS.init({duration: 1000});
 jQuery.datetimepicker.setLocale('es');
 
 let btnI=0, btnF=0;
+let posI, posF;
+let totalPago=0;
 
     $(document).ready(function(){
         if($("#fecha").length){
@@ -29,27 +31,24 @@ let btnI=0, btnF=0;
         
         $("#tipoPago1").hide();
         $("#tipoPago2").hide();
-        $("#tipoPago3").hide();
+        $("#tipoPago3").hide();        
     });
 
 
 function reset(){
     $('#formReserva').trigger("reset");
-    for(var i=0; i<horas.length; i++){
-        horas[i]=0;
-    }
     $("#tipoPago1").hide();
     $("#tipoPago2").hide();
     $("#tipoPago3").hide();
     $('#formTarjeta').trigger("reset");
-    resetearButtons();
+    $("#content-btn").empty();
 }
 
 function abrirModoPago(){
 
     var form = document.getElementById('formReserva');
 
-    if (!form.checkValidity()) {
+    if (!form.checkValidity() || document.getElementById("hora").value=="" || document.getElementById("hora2").value=="") {
         swal({
             icon: "warning",
             title: "Atención",
@@ -62,7 +61,18 @@ function abrirModoPago(){
         modal.hide();
         
         var myModal = new bootstrap.Modal(document.getElementById('modalPago'))
-        myModal.show()
+        myModal.show();
+
+        if($("#luz").prop('checked')){
+            totalPago=65*((posF-posI)+1);                        
+        }else{
+            totalPago=50*((posF-posI)+1);
+        }
+        totalPago=totalPago.toFixed(2);
+        document.querySelector(".textPago1").innerHTML = totalPago.toString();
+        document.querySelector(".textPago2").innerHTML = totalPago.toString();
+        document.querySelector(".textPago3").innerHTML = totalPago.toString();
+        console.log(totalPago);
     }    
 }
 
@@ -115,8 +125,10 @@ function guardarReserva(){
 
             /* **************** AQUÍ DEBE IR LA TRANSACCIÓN DE LA TARJETA********** */
             var formData = new FormData();
+            var DPI = document.getElementById("dpi").value;
+            DPI.trim();
             formData.append('nombre', document.getElementById("nombre").value);
-            formData.append('dpi', document.getElementById("dpi").value);
+            formData.append('dpi', DPI);
             formData.append('telefono', document.getElementById("telefono").value);
             formData.append('email', document.getElementById("email").value);
             formData.append('nit', document.getElementById("nit").value);
@@ -125,6 +137,9 @@ function guardarReserva(){
             formData.append('h_terminar', document.getElementById("hora2").value);
             formData.append('tipo_pago', 1);
             formData.append('estado', 1);
+            formData.append('inicio', posI);
+            formData.append('fin', posF);
+            formData.append('total', totalPago);
             axios({
                 url: "/guardarReserva",
                 method: "post",
@@ -144,8 +159,10 @@ function guardarReserva(){
         }
     }else if($("#tipoPago").val()==2){
         var formData = new FormData();
+        var DPI = document.getElementById("dpi").value;
+            DPI.trim();
         formData.append('nombre', document.getElementById("nombre").value);
-        formData.append('dpi', document.getElementById("dpi").value);
+        formData.append('dpi', DPI);
         formData.append('telefono', document.getElementById("telefono").value);
         formData.append('email', document.getElementById("email").value);
         formData.append('nit', document.getElementById("nit").value);
@@ -154,6 +171,9 @@ function guardarReserva(){
         formData.append('h_terminar', document.getElementById("hora2").value);
         formData.append('tipo_pago', 2);
         formData.append('estado', 4);
+        formData.append('inicio', posI);
+        formData.append('fin', posF);
+        formData.append('total', totalPago);
         axios({
             url: "/guardarReserva",
             method: "post",
@@ -172,8 +192,10 @@ function guardarReserva(){
         })        
     }else if($("#tipoPago").val()==3){
         var formData = new FormData();
+        var DPI = document.getElementById("dpi").value;
+            DPI.trim();
         formData.append('nombre', document.getElementById("nombre").value);
-        formData.append('dpi', document.getElementById("dpi").value);
+        formData.append('dpi', DPI);
         formData.append('telefono', document.getElementById("telefono").value);
         formData.append('email', document.getElementById("email").value);
         formData.append('nit', document.getElementById("nit").value);
@@ -182,6 +204,9 @@ function guardarReserva(){
         formData.append('h_terminar', document.getElementById("hora2").value);
         formData.append('tipo_pago', 3);
         formData.append('estado', 2);
+        formData.append('inicio', posI);
+        formData.append('fin', posF);
+        formData.append('total', totalPago);
         axios({
             url: "/guardarReserva",
             method: "post",
@@ -245,8 +270,9 @@ function cargarHorario(){
                 $("#content-btn").append('<button class="btn btn-danger disabled btn-sm mt-2 me-1 btn-alquilar" type="button" id="btn'+ H.horas.id +'" onclick="apartar('+ H.horas.id +');">'+ H.horas.nombre +'<br><span id="estadoText'+ H.horas.id +'">Ocupado</span></button>');
             }else{
                 $("#content-btn").append('<button class="btn btn-secondary btn-sm mt-2 me-1 btn-alquilar" type="button" id="btn'+ H.horas.id +'" onclick="apartar('+ H.horas.id +');">'+ H.horas.nombre +'<br><span id="estadoText'+ H.horas.id +'">Libre</span></button>');
-            }            
-        });        
+            }
+        });
+        revisarButton();         
     }).catch((err) => {
         console.log(err);
     })
@@ -255,7 +281,8 @@ function cargarHorario(){
 function apartar(id){
     /* $("#btn"+id).prop('disabled',true); */
     var btn = document.querySelector('#btn'+id);
-    var posI, posF;
+    posI=0;
+    posF=0;
     if(btn.classList.contains('btn-secondary')){
         btn.classList.remove('btn-secondary');        
         btn.classList.add('btn-info');
@@ -293,20 +320,53 @@ function apartar(id){
     })
 
     for(var i=posI; i<=posF; i++){
-        if(document.querySelector("#btn"+i).classList.contains('btn-danger')){
-            $("#hora").val('');
-            $("#hora2").val('');
-            $("#fecha").val("");
-            $("#content-btn").empty(); 
-            /* swal({
+        if(document.querySelector("#btn"+i).classList.contains('btn-danger')){          
+            swal({
                 icon: "warning",
                 title: "Atención",
                 text: "!No se puede reservar en medio de un horario ocupado!, le recomendamos hacer reservas individuales, por favor vuelva a elegir el día de nuevo",
-            }); */
+            }).then(function () {
+                $("#hora").val('');
+                $("#hora2").val('');
+                $("#fecha").val("");
+                $("#content-btn").empty();
+            });
             break;
         }else{
             document.querySelector("#btn"+i).classList.remove('btn-secondary');        
             document.querySelector("#btn"+i).classList.add('btn-info');
         }        
+    }
+}
+
+function habilitarBoton(){
+    if($("#terminos").is(":checked")){
+        $("#btn-reservar").prop('disabled',false);
+    }else{
+        $("#btn-reservar").prop('disabled',true);
+    }
+}
+
+function revisarButton(){
+    var fechaHora = new Date();
+    var fecha = fechaHora.getFullYear() + "-" +((fechaHora.getMonth()+1).toString().length != 2 ? "0" + (fechaHora.getMonth() + 1) : (fechaHora.getMonth()+1)) + "-" + (fechaHora.getDate().toString().length != 2 ? "0" + fechaHora.getDate() : fechaHora.getDate());
+    var hora = fechaHora.getHours();
+    var minutos = fechaHora.getMinutes();
+    if(document.getElementById("fecha").value == fecha){
+        var hora_id = hora-7;
+        if(hora_id>1){
+            hora_id*=2;            
+            if(minutos<30){
+                hora_id--;
+            }
+        }    
+        
+        if(hora_id==1 && minutos>=30){
+            hora_id++;
+        }        
+    }
+
+    for(var i =1; i<=hora_id; i++){
+        $("#btn"+i).prop('disabled',true);
     }
 }
