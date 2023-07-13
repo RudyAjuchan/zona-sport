@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ReciboMails;
 use Illuminate\Http\Request;
 use App\Models\detalle_horas;
 use App\Models\horas;
@@ -9,6 +10,9 @@ use App\Models\Reservas;
 use App\Models\reservas_detalle;
 use App\Models\divisa;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Barryvdh\DomPDF\Facade\Pdf;
+use stdClass;
 
 class ReservaController extends Controller
 {
@@ -112,8 +116,54 @@ class ReservaController extends Controller
                     ));
                 }
             }
+            //PARA MANDAR EMAIL
+            $reserva2['nombre'] = $request->nombre;
+            $reserva2['dpi'] = $request->dpi;
+            $reserva2['telefono'] = $request->telefono;
+            $reserva2['correo'] = $request->email;
+            $reserva2['nit'] = $request->nit;
+            $reserva2['fecha'] = $request->fecha;
+            $reserva2['h_inicio'] = $request->h_inicio;
+            $reserva2['h_final'] = $request->h_terminar;
+            $reserva2['total'] = $request->total;
+
+            $data["email"] = "rudyajuchansec32@gmail.com";
+            $data["title"] = "Zona Sport";
+
+            $pdf = PDF::loadView('emails.recibo', $reserva2);
+
+            Mail::send('emails.recibo', $reserva2, function($message)use($reserva2, $pdf) {
+                $message->to($reserva2["email"], $reserva2["email"])
+                        ->subject($reserva2["title"])
+                        ->attachData($pdf->output(), "text.pdf");
+            });
         }        
         return $request;
+    }
+
+    public function pruebacorreo(){
+        $reserva2['nombre'] = "Rudy Ajuchán";
+        $reserva2['dpi'] = "123522515654";
+        $reserva2['telefono'] = "12563254";
+        $reserva2['correo'] = "rudy@gmail.com";
+        $reserva2['nit'] = "2156-5";
+        $reserva2['fecha'] = "2023-07-13";
+        $reserva2['h_inicio'] = '14:00';
+        $reserva2['h_final'] = '15:00';
+        $reserva2['total'] = '100';
+
+        $reserva2["email"] = "rudyajuchansec32@gmail.com";
+        $reserva2["title"] = "Zona Sport";
+
+        $pdf = PDF::loadView('emails.recibo', $reserva2);
+
+        Mail::send('emails.recibo', $reserva2, function($message)use($reserva2, $pdf) {
+            $message->to($reserva2["email"], $reserva2["email"])
+                    ->subject($reserva2["title"])
+                    ->attachData($pdf->output(), "text.pdf");
+        });
+
+        dd('Mail sent successfully');
     }
 
     /**
