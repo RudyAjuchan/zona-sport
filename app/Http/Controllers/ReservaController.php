@@ -7,6 +7,7 @@ use App\Models\detalle_horas;
 use App\Models\horas;
 use App\Models\Reservas;
 use App\Models\reservas_detalle;
+use App\Models\divisa;
 use Illuminate\Support\Facades\DB;
 
 class ReservaController extends Controller
@@ -31,6 +32,26 @@ class ReservaController extends Controller
         $datosHF = horas::where('id',$horaF)->first();
         return compact('datosHI', 'datosHF');
     }
+
+    public function getDivisa(){
+        return divisa::all()->first();
+    }
+
+    public function insertDivisa(Request $request){
+        date_default_timezone_set('America/Guatemala');
+        $divisa = divisa::find(1);
+        $divisa->dolar_quetzal = $request->divisa;
+        $divisa->created_at = date('Y-m-d H:i:s');
+        $divisa->save();
+        return $request;
+
+    }
+    public function insertDivisa2(Request $request){
+        $divisa = new divisa();
+        $divisa->dolar_quetzal = $request->divisa;        
+        $divisa->save();
+        return $request;
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -44,6 +65,7 @@ class ReservaController extends Controller
      */
     public function store(Request $request)
     {
+        date_default_timezone_set('America/Guatemala');
         //VERIFICAR SI HAY CONFLICTOS DE HORARIOS
         $fecha = $request->fecha;
         $datosReservaDetalle = DB::table('reservas_detalles')->join('reservas','reservas_detalles.reservas_id', '=', 'reservas.id')->where('reservas.fecha',$fecha)->get();
@@ -68,6 +90,7 @@ class ReservaController extends Controller
             $reserva->fecha = $request->fecha;
             $reserva->h_inicio = $request->h_inicio;
             $reserva->h_final = $request->h_terminar;
+            $reserva->total = $request->total;
             $reserva->tipo_pago = $request->tipo_pago;
             $reserva->estado = $request->estado;
             $reserva->save();

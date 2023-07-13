@@ -4,6 +4,8 @@ jQuery.datetimepicker.setLocale('es');
 let btnI=0, btnF=0;
 let posI, posF;
 let totalPago=0;
+let totalPago2=0;
+let divisa="";
 
     $(document).ready(function(){
         if($("#fecha").length){
@@ -25,13 +27,65 @@ let totalPago=0;
                     if($input.val()!=""){
                         cargarHorario();
                     }
-                }
+                },
+                scrollMonth : false,
+                scrollInput : false
             });
         }
         
         $("#tipoPago1").hide();
         $("#tipoPago2").hide();
-        $("#tipoPago3").hide();        
+        $("#tipoPago3").hide();
+        
+        /* SECCIÓN PARA OBTENER LA DIVISA DEL DÍA */
+        axios({
+            url: "/getDivisa",
+            method: "get"            
+        }).then((res) =>{
+            var fechaDivisa = new Date(res.data.created_at);
+            var fechaHoy = new Date();
+            fechaHoy = fechaHoy.getFullYear() + "-" +((fechaHoy.getMonth()+1).toString().length != 2 ? "0" + (fechaHoy.getMonth() + 1) : (fechaHoy.getMonth()+1)) + "-" + (fechaHoy.getDate().toString().length != 2 ? "0" + fechaHoy.getDate() : fechaHoy.getDate());
+            fechaDivisa = fechaDivisa.getFullYear() + "-" +((fechaDivisa.getMonth()+1).toString().length != 2 ? "0" + (fechaDivisa.getMonth() + 1) : (fechaDivisa.getMonth()+1)) + "-" + (fechaDivisa.getDate().toString().length != 2 ? "0" + fechaDivisa.getDate() : fechaDivisa.getDate());
+            if(res.data!=""){
+                if(fechaHoy!=fechaDivisa){
+                    axios({
+                        url: "https://api.getgeoapi.com/v2/currency/convert?api_key=abdb40297e553808cd57d9e9fc88afe6d9579c23&from=USD&to=GTQ&amount=1&format=json",
+                        method: "get"            
+                    }).then((res2) =>{
+                        /* console.log(res2.data.rates.GTQ.rate); */
+                        formDataD = new FormData();
+                        formDataD.append("divisa",res2.data.rates.GTQ.rate);
+                        axios({
+                            url: "/insertDivisa",
+                            method: "post",
+                            data: formDataD            
+                        });
+                    }).catch((err) => {
+                        console.log(err);
+                    })
+                }
+            }else{
+                //Se hará la inserción de divisa
+                axios({
+                    url: "https://api.getgeoapi.com/v2/currency/convert?api_key=abdb40297e553808cd57d9e9fc88afe6d9579c23&from=USD&to=GTQ&amount=1&format=json",
+                    method: "get"            
+                }).then((res2) =>{
+                    /* console.log(res2.data.rates.GTQ.rate); */
+                    formDataD = new FormData();
+                    formDataD.append("divisa",res2.data.rates.GTQ.rate);
+                    axios({
+                        url: "/insertDivisa2",
+                        method: "post",
+                        data: formDataD            
+                    });
+                }).catch((err) => {
+                    console.log(err);
+                })
+            }
+        }).catch((err) => {
+            console.log(err);
+        })
+        /* SECCIÓN PARA OBTENER LA DIVISA DEL DÍA */
     });
 
 
@@ -42,6 +96,11 @@ function reset(){
     $("#tipoPago3").hide();
     $('#formTarjeta').trigger("reset");
     $("#content-btn").empty();
+    btnI=0, btnF=0;
+    posI, posF;
+    totalPago=0;
+    totalPago2=0;
+    divisa="";
 }
 
 function abrirModoPago(){
@@ -56,23 +115,35 @@ function abrirModoPago(){
         });
         /* alert("Completa los campos para continuar, revisa si el correo introducido es un correo válido") */
     }else{
-        var myModalEl = document.getElementById('modalId');
-        var modal = bootstrap.Modal.getInstance(myModalEl)
-        modal.hide();
-        
-        var myModal = new bootstrap.Modal(document.getElementById('modalPago'))
-        myModal.show();
+        divisa="";
+        axios({
+            url: "/getDivisa",
+            method: "get"            
+        }).then((res) =>{            
+            divisa=res.data.dolar_quetzal;
 
-        if($("#luz").prop('checked')){
-            totalPago=65*((posF-posI)+1);                        
-        }else{
-            totalPago=50*((posF-posI)+1);
-        }
-        totalPago=totalPago.toFixed(2);
-        document.querySelector(".textPago1").innerHTML = totalPago.toString();
-        document.querySelector(".textPago2").innerHTML = totalPago.toString();
-        document.querySelector(".textPago3").innerHTML = totalPago.toString();
-        console.log(totalPago);
+            var myModalEl = document.getElementById('modalId');
+            var modal = bootstrap.Modal.getInstance(myModalEl)
+            modal.hide();
+            
+            var myModal = new bootstrap.Modal(document.getElementById('modalPago'))
+            myModal.show();
+
+            if($("#luz").prop('checked')){
+                totalPago=65*((posF-posI)+1);                        
+            }else{
+                totalPago=50*((posF-posI)+1);
+            }            
+            totalPago2 = totalPago+(totalPago*0.05)+(0.25*divisa);
+            totalPago2 = totalPago2.toFixed(2);
+            totalPago=totalPago.toFixed(2);        
+            document.querySelector(".textPago1").innerHTML = totalPago2.toString();
+            document.querySelector(".textPago2").innerHTML = totalPago.toString();
+            document.querySelector(".textPago3").innerHTML = totalPago.toString();
+            /* console.log(totalPago); */
+        }).catch((err) => {
+            console.log(err);
+        })        
     }    
 }
 
@@ -122,7 +193,7 @@ function guardarReserva(){
             })
         }else{
             /* **************** AQUÍ DEBE IR LA TRANSACCIÓN DE LA TARJETA********** */
-
+            console.log(totalPago2/divisa);
             /* **************** AQUÍ DEBE IR LA TRANSACCIÓN DE LA TARJETA********** */
             var formData = new FormData();
             var DPI = document.getElementById("dpi").value;
@@ -139,13 +210,13 @@ function guardarReserva(){
             formData.append('estado', 1);
             formData.append('inicio', posI);
             formData.append('fin', posF);
-            formData.append('total', totalPago);
+            formData.append('total', totalPago2);
             axios({
                 url: "/guardarReserva",
                 method: "post",
                 data: formData
             }).then((res) =>{
-                console.log(res.data);                           
+                /* console.log(res.data); */                           
                 swal({
                     icon: "success",
                     title: "Atención",
@@ -179,7 +250,7 @@ function guardarReserva(){
             method: "post",
             data: formData
         }).then((res) =>{
-            console.log(res.data);                           
+            /* console.log(res.data); */                           
             swal({
                 icon: "success",
                 title: "Atención",
@@ -212,7 +283,7 @@ function guardarReserva(){
             method: "post",
             data: formData
         }).then((res) =>{
-            console.log(res.data);                           
+            /* console.log(res.data); */                           
             swal({
                 icon: "success",
                 title: "Atención",

@@ -143,12 +143,32 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
+                        <h6 class="card-title">Nuestras tarifas</h6>
+                        <div id="content">
+                            <ul class="timeline">
+                                <li class="event" data-date="Media hora" data-aos="fade-down">
+                                    <h3>Con luz Q<span class="text-danger"><b> 65.00</b></span></h3>                                    
+                                </li>
+                                <li class="event" data-date="Media hora" data-aos="fade-down">
+                                    <h3>Sin luz Q<span class="text-danger"><b> 50.00</b></span></h3>                                    
+                                </li> 
+                                <li class="event" data-date="Una hora" data-aos="fade-down">
+                                    <h3>Con luz Q<span class="text-danger"><b> 130.00</b></span></h3>                                    
+                                </li>
+                                <li class="event" data-date="Una hora" data-aos="fade-down">
+                                    <h3>Sin luz Q<span class="text-danger"><b> 100.00</b></span></h3>                                    
+                                </li>                               
+                            </ul>
+                        </div>
+                        <br><br>
                         <h6 class="card-title">Nuestros términos</h6>
                         <div id="content">
                             <ul class="timeline">
                                 <li class="event" data-date="Término 1" data-aos="fade-down">
                                     <h3>Aceptación de pagos</h3>
-                                    <p>Al realizar una reserva por medio de nuestra página web; usted acepta pagar el monto correspondiente utilizando una tarjeta de crédito o débito válida.</p>
+                                    <p>Al realizar una reserva por medio de nuestra página web; usted acepta pagar el monto correspondiente utilizando una tarjeta de crédito o débito válida.
+                                        El pago con tarjeta tiene un recargo del 5% + $0.25, el total a cancelar se calculará cuando elija este tipo de pago.
+                                    </p>
                                 </li>
                                 <li class="event" data-date="Término 2" data-aos="fade-down">
                                     <h3>Seguridad de la información</h3>
@@ -175,7 +195,7 @@
                                     <p>Esta página Web utiliza una aplicación de terceros para efectuar la transacción con pago de tarjeta de crédito o débito. La información no será compartida fuera de la transacción.</p>
                                 </li>
                             </ul>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
             </div>
@@ -184,7 +204,7 @@
     <!-- Para linea -->
 
     <!-- FOOTER -->
-    <div class="container">
+    <div class="container-fluid px-5">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
             <div class="col-md-4 d-flex align-items-center">
                 <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
@@ -367,8 +387,8 @@
                             Para llevar a cabo este procedimiento, siga los siguientes pasos:
                             <br>
                             <ol>
-                                <li>Presione confirmar y reservar para generar una orden de reserva</li>
                                 <li>Elija el banco de su preferencia.</li>
+                                <li>Presione confirmar y reservar para generar una orden de reserva</li>
                                 <li>Realice el depósito según el monto indicado.</li>
                                 <li>Una vez realizado el depósito, envíe una captura del comprobante al número +502 54125425 para validar el pago.</li>
                                 <li>Una vez validado el pago, procederemos a reservar y enviarle el comprobante a la dirección de correo proporcionada.</li>
