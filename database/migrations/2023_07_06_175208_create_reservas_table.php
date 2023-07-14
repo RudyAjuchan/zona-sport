@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('estado');
             $table->time('h_inicio');
             $table->time('h_final');
+            $table->integer('luz');
             $table->decimal('total',8,2);
             $table->timestamps();
         });

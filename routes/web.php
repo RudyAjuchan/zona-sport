@@ -55,6 +55,6 @@ Route::post('/obtenerHoras', [ReservaController::class, 'obtenerHoras'])->name('
 Route::get('/getDivisa', [ReservaController::class, 'getDivisa'])->name('buscar.horas');
 Route::post('/insertDivisa', [ReservaController::class, 'insertDivisa'])->name('buscar.horas');
 Route::post('/insertDivisa2', [ReservaController::class, 'insertDivisa2'])->name('buscar.horas');
-Route::get('/pruebacorreo', [ReservaController::class, 'pruebacorreo'])->name('buscar.horas');
+Route::get('/pruebaPDF', [ReservaController::class, 'pruebaPDF'])->name('buscar.horas');
 
 require __DIR__.'/auth.php';

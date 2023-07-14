@@ -97,6 +97,7 @@ class ReservaController extends Controller
             $reserva->total = $request->total;
             $reserva->tipo_pago = $request->tipo_pago;
             $reserva->estado = $request->estado;
+            $reserva->luz = $request->luz;
             $reserva->save();
             $id_reserva = $reserva->id;
 
@@ -126,9 +127,13 @@ class ReservaController extends Controller
             $reserva2['h_inicio'] = $request->h_inicio;
             $reserva2['h_final'] = $request->h_terminar;
             $reserva2['total'] = $request->total;
+            $reserva2['tipo_pago'] = $request->tipo_pago;
+            $reserva2['estado'] = $request->estado;
+            $reserva2['luz'] = $request->luz;
+            $reserva2['id_reserva'] = str_pad($id_reserva, 6, '0', STR_PAD_LEFT);;
 
-            $data["email"] = "rudyajuchansec32@gmail.com";
-            $data["title"] = "Zona Sport";
+            $reserva2["email"] = $request->email;
+            $reserva2["title"] = "Zona Sport";
 
             $pdf = PDF::loadView('emails.recibo', $reserva2);
 
@@ -141,7 +146,7 @@ class ReservaController extends Controller
         return $request;
     }
 
-    public function pruebacorreo(){
+    public function pruebaPDF(){
         $reserva2['nombre'] = "Rudy Ajuchán";
         $reserva2['dpi'] = "123522515654";
         $reserva2['telefono'] = "12563254";
@@ -151,19 +156,14 @@ class ReservaController extends Controller
         $reserva2['h_inicio'] = '14:00';
         $reserva2['h_final'] = '15:00';
         $reserva2['total'] = '100';
+        $reserva2['tipo_pago'] = 3;
+        $reserva2['estado'] = 2;
 
         $reserva2["email"] = "rudyajuchansec32@gmail.com";
         $reserva2["title"] = "Zona Sport";
 
         $pdf = PDF::loadView('emails.recibo', $reserva2);
-
-        Mail::send('emails.recibo', $reserva2, function($message)use($reserva2, $pdf) {
-            $message->to($reserva2["email"], $reserva2["email"])
-                    ->subject($reserva2["title"])
-                    ->attachData($pdf->output(), "text.pdf");
-        });
-
-        dd('Mail sent successfully');
+        return $pdf->setPaper('letter', 'portrait')->stream('recibo.pdf');
     }
 
     /**

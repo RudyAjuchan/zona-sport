@@ -6,6 +6,7 @@ let posI, posF;
 let totalPago=0;
 let totalPago2=0;
 let divisa="";
+let luz=0;
 
     $(document).ready(function(){
         if($("#fecha").length){
@@ -101,6 +102,7 @@ function reset(){
     totalPago=0;
     totalPago2=0;
     divisa="";
+    luz=0;
 }
 
 function abrirModoPago(){
@@ -130,9 +132,11 @@ function abrirModoPago(){
             myModal.show();
 
             if($("#luz").prop('checked')){
-                totalPago=65*((posF-posI)+1);                        
+                totalPago=65*((posF-posI)+1);
+                luz=1;
             }else{
                 totalPago=50*((posF-posI)+1);
+                luz=0;
             }            
             totalPago2 = totalPago+(totalPago*0.05)+(0.25*divisa);
             totalPago2 = totalPago2.toFixed(2);
@@ -192,6 +196,7 @@ function guardarReserva(){
                 text: "Complete los campos por favor",
             })
         }else{
+            $("#loader").fadeIn();
             /* **************** AQUÍ DEBE IR LA TRANSACCIÓN DE LA TARJETA********** */
             console.log(totalPago2/divisa);
             /* **************** AQUÍ DEBE IR LA TRANSACCIÓN DE LA TARJETA********** */
@@ -211,11 +216,13 @@ function guardarReserva(){
             formData.append('inicio', posI);
             formData.append('fin', posF);
             formData.append('total', totalPago2);
+            formData.append('luz', luz);
             axios({
                 url: "/guardarReserva",
                 method: "post",
                 data: formData
             }).then((res) =>{
+                $("#loader").fadeOut();
                 /* console.log(res.data); */                           
                 swal({
                     icon: "success",
@@ -229,6 +236,7 @@ function guardarReserva(){
             })
         }
     }else if($("#tipoPago").val()==2){
+        $("#loader").fadeIn();
         var formData = new FormData();
         var DPI = document.getElementById("dpi").value;
             DPI.trim();
@@ -245,11 +253,13 @@ function guardarReserva(){
         formData.append('inicio', posI);
         formData.append('fin', posF);
         formData.append('total', totalPago);
+        formData.append('luz', luz);
         axios({
             url: "/guardarReserva",
             method: "post",
             data: formData
         }).then((res) =>{
+            $("#loader").fadeOut();
             /* console.log(res.data); */                           
             swal({
                 icon: "success",
@@ -262,6 +272,7 @@ function guardarReserva(){
             console.log(err);
         })        
     }else if($("#tipoPago").val()==3){
+        $("#loader").fadeIn();
         var formData = new FormData();
         var DPI = document.getElementById("dpi").value;
             DPI.trim();
@@ -278,11 +289,13 @@ function guardarReserva(){
         formData.append('inicio', posI);
         formData.append('fin', posF);
         formData.append('total', totalPago);
+        formData.append('luz', luz);
         axios({
             url: "/guardarReserva",
             method: "post",
             data: formData
         }).then((res) =>{
+            $("#loader").fadeOut();
             /* console.log(res.data); */                           
             swal({
                 icon: "success",
@@ -304,6 +317,7 @@ function guardarReserva(){
 }
 
 function cargarHorario(){
+    $("#loader").fadeIn();
     var dia = new Date($("#fecha").val()).getDay();
     var dia_id;
     if(dia>=0 && dia <=4){
@@ -343,7 +357,8 @@ function cargarHorario(){
                 $("#content-btn").append('<button class="btn btn-secondary btn-sm mt-2 me-1 btn-alquilar" type="button" id="btn'+ H.horas.id +'" onclick="apartar('+ H.horas.id +');">'+ H.horas.nombre +'<br><span id="estadoText'+ H.horas.id +'">Libre</span></button>');
             }
         });
-        revisarButton();         
+        revisarButton();
+        $("#loader").fadeOut();
     }).catch((err) => {
         console.log(err);
     })
@@ -383,30 +398,37 @@ function apartar(id){
         url: "/obtenerHoras",
         method: "post",
         data: formData
-    }).then((res) =>{
-        $("#hora").val(res.data.datosHI.h_inicio);
-        $("#hora2").val(res.data.datosHF.h_fin);
+    }).then((res) =>{        
+        if(res.data.datosHI!="" && res.data.datosHI!=null){
+            $("#hora").val(res.data.datosHI.h_inicio);
+            $("#hora2").val(res.data.datosHF.h_fin);
+        }else{
+            $("#hora").val("");
+            $("#hora2").val("");
+        }        
     }).catch((err) => {
         console.log(err);
     })
 
-    for(var i=posI; i<=posF; i++){
-        if(document.querySelector("#btn"+i).classList.contains('btn-danger')){          
-            swal({
-                icon: "warning",
-                title: "Atención",
-                text: "!No se puede reservar en medio de un horario ocupado!, le recomendamos hacer reservas individuales, por favor vuelva a elegir el día de nuevo",
-            }).then(function () {
-                $("#hora").val('');
-                $("#hora2").val('');
-                $("#fecha").val("");
-                $("#content-btn").empty();
-            });
-            break;
-        }else{
-            document.querySelector("#btn"+i).classList.remove('btn-secondary');        
-            document.querySelector("#btn"+i).classList.add('btn-info');
-        }        
+    if(posI!=0 && posF!=0){
+        for(var i=posI; i<=posF; i++){
+            if(document.querySelector("#btn"+i).classList.contains('btn-danger')){          
+                swal({
+                    icon: "warning",
+                    title: "Atención",
+                    text: "!No se puede reservar en medio de un horario ocupado!, le recomendamos hacer reservas individuales, por favor vuelva a elegir el día de nuevo",
+                }).then(function () {
+                    $("#hora").val('');
+                    $("#hora2").val('');
+                    $("#fecha").val("");
+                    $("#content-btn").empty();
+                });
+                break;
+            }else{
+                document.querySelector("#btn"+i).classList.remove('btn-secondary');        
+                document.querySelector("#btn"+i).classList.add('btn-info');
+            }        
+        }
     }
 }
 

@@ -277,7 +277,7 @@ form input:required {
     background: #1488cc;
     /* fallback for old browsers */
     background: linear-gradient(to left, #283593, #1976d2);
-    backdrop-filter: blur(30px);
+    /* backdrop-filter: blur(30px); */
     border: 2px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 0 80px rgba(0, 0, 0, 0.2);
     overflow: hidden;
@@ -404,4 +404,35 @@ form input:required {
 
 #formReserva input:checked[type="checkbox"]:before {
     left: 20px;
+}
+
+/* Para loader */
+#loader {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(175, 173, 173, 0.75) url("/assets/img/spinner.svg") no-repeat center center;
+    background-size: 100px;
+    z-index: 99999;
+}
+
+#loader2 {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(255, 255, 255) url("/assets/img/spinner.svg") no-repeat center center;
+    background-size: 100px;
+    z-index: 99999;
+}
+
+.hidden{
+    overflow: hidden;
 }

@@ -1,3 +1,8 @@
+window.onload = function(){
+    $("#loader2").fadeOut();
+    $("body").removeClass('hidden');
+}
+
 window.addEventListener("scroll", function(){
     var header = document.querySelector("header");
     header.classList.toggle("sticky", window.scrollY > 0);

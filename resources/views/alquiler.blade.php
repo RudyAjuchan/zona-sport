@@ -16,7 +16,9 @@
     <link rel="icon" type="image/x-icon" href="assets/img/icono_zs.ico">
 </head>
 
-<body>
+<body class="hidden">
+    <div id='loader2'></div>
+    <div id='loader'></div>
     <header>
         <div class="d-flex justify-content-between align-items-center cont_responsive">
             <a href="/" class="logo"><img src="assets/img/logo_lg_blanco.png" class="logoLG" width="200"><img src="assets/img/logo_responsive_blanco.png" class="logoSM" width="100"></a>
