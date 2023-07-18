@@ -1,3 +1,7 @@
+window.onload = function(){
+    $("#loader2").fadeOut();
+    $("body").removeClass('hidden');
+}
 var g1 = new Chart('grafica1', {type: 'line'});
 var g2 = new Chart('grafica2', {type: 'line'});
 var g3 = new Chart('grafica3', {type: 'doughnut'});

@@ -238,3 +238,16 @@ a {
     zoom: 2.5;
   }
 }
+
+#loader2 {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  background: rgba(255, 255, 255) url("/assets/img/spinner.svg") no-repeat center center;
+  background-size: 100px;
+  z-index: 99999;
+}

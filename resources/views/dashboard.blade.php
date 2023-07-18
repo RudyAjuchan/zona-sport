@@ -1,6 +1,7 @@
 @extends('layouts.layout')
 
 @section('contenido')
+<div id='loader2'></div>
     <!--=============== MAIN ===============-->
     <main class="containerS sectionS py-5" id="content-grafica">        
         <div class="container px-5">
