@@ -9,6 +9,6 @@ class reservas_detalle extends Model
 {
     use HasFactory;
     public function Horas(){
-        return $this->belongsTo(Reservas::class);
+        return $this->belongsTo(Horas::class);
     }
 }

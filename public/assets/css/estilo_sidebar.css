@@ -48,16 +48,24 @@ a {
 }
 
 /*=============== NAV ===============*/
-.container {
+.containerS {
   margin-left: 1rem;
   margin-right: 1rem;
 }
 
-.section {
-  padding: 2rem 0;
+.sectionS {
+  padding-left: 6.5rem;
+  padding-right: 1rem;
 }
 
 @media screen and (max-width: 767px) {
+  .sectionS {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .containerS{
+    margin-bottom: 100px;
+  }
   .nav__logo, 
   .nav__toggle, 
   .nav__name {
@@ -103,11 +111,32 @@ a {
   color: var(--first-color);
 }
 
+.card-estadistica{
+  height: 5rem;
+}
+
 /*=============== BREAKPOINTS ===============*/
 /* For small devices */
 @media screen and (max-width: 425px) {
+  .card-estadistica{
+    height: 7rem;
+  }
+  .sectionS {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
   .nav__list {
     column-gap: 25px;
+  }
+}
+
+@media screen and (max-width: 528px) {
+  .card-estadistica{
+    height: 7rem;
+  }
+  .containerS{
+    margin-bottom: 100px;
   }
 }
 
@@ -123,7 +152,7 @@ a {
     margin-left: 7rem;
     margin-right: 1.5rem;
   }
-  .nav {
+  .navS {
     position: fixed;
     left: 0;
     background-color: var(--container-color);
@@ -182,6 +211,19 @@ a {
 /* Rotate toggle icon */
 .rotate-icon {
   transform: rotate(180deg);
+}
+
+#cardGrafica{
+  background-color: white;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+
+#content-grafica{
+  background-color: #F0F1F3;
 }
 
 /* For 2K & 4K resolutions */

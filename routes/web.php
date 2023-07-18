@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservaController;
+use App\Http\Controllers\dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/datosDashboard', [dashboard::class, 'obtenerDatosDashboard'])->name('dashboard.datos');
+    Route::get('/datosGraficas', [dashboard::class, 'obtenerDatosGrafica'])->name('dashboard.datos');
+    Route::get('/datosGraficas2', [dashboard::class, 'obtenerDatosGrafica2'])->name('dashboard.datos');
+    Route::get('/datosGraficas3', [dashboard::class, 'obtenerDatosGrafica3'])->name('dashboard.datos');
+    Route::get('/datosGraficas4', [dashboard::class, 'obtenerDatosGrafica4'])->name('dashboard.datos');
 });
 
 Route::post('/getReserva',[ReservaController::class, 'index'])->name('Horario.get');
